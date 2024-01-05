@@ -24,6 +24,12 @@ class Database:
                                 [daily_receipt_id] INT NOT NULL);
                                 
                             """)
+        self.cursor.execute("""CREATE VIEW IF NOT EXISTS view_menu_receipt AS
+                                SELECT table_receipt.receipt_id, table_menu.name, table_receipt.count,
+                                table_receipt.price, (table_receipt.price * table_receipt.count) AS sum
+                                FROM table_menu
+                                INNER JOIN table_receipt ON table_menu.ID == table_receipt.menu_id
+                            """)
         
         self.connection.commit()
         self.connection.close()
@@ -89,6 +95,14 @@ class Database:
         self.cursor.execute("UPDATE table_receipt SET count=count+1 WHERE receipt_id=? And menu_id=? ",(receipt_id,menu_id,))
         self.connection.commit()
         self.connection.close()
+
+
+    def get_receipt_by_receiptid(self,receipt_id):
+        self.connection= sqlite3.connect(self.__db_name)
+        self.cursor=self.connection.cursor()
+        self.cursor.execute("SELECT * FROM view_menu_receipt WHERE receipt_id=?",(receipt_id,))
+        result = self.cursor.fetchall()
+        return result
 
 
 

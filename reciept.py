@@ -10,7 +10,7 @@ from datetime import date
 
 
 OUTPUT_PATH = os.path.abspath(__file__)
-ASSETS_PATH = os.path.join(OUTPUT_PATH, r"C:\Users\ahmad\OneDrive\Desktop\project\finished\my_project\build\assets\frame0")
+ASSETS_PATH = os.path.join(OUTPUT_PATH, r"C:\Users\ahmad\OneDrive\Desktop\git_pro\restaurant_pro\assets\frame0")
 
 def relative_to_assets(path: str) -> str:
     return os.path.join(ASSETS_PATH, path)
@@ -50,6 +50,15 @@ class Receipt(Frame):
         self.canvas.create_text(1101.0,73.0,anchor="nw",text="منوی نوشیدنی ها",fill="#000000",font=("Kalameh Regular", 48 * -1))
 
 
+        def load_receipt(receipt_id):
+            self.listbox_receipt.delete(0,'end')
+            receipts=db.get_receipt_by_receiptid(receipt_id)
+            for receipt in receipts:
+                self.listbox_receipt.insert(0,"%s %s %s %s" % (receipt[1],receipt[2],receipt[3],receipt[4]))
+
+
+
+
         self.listbox_drinks = Listbox(self.canvas,background='#B9B9B9', exportselection=False,font=self.kalame_font) # Create a listbox
         self.canvas.create_window(1125.0,569.0, window=self.listbox_drinks, width=470, height=780) 
         self.listbox_drinks.configure(justify=RIGHT)
@@ -63,14 +72,9 @@ class Receipt(Frame):
             drink_item=db.get_menu_item_by_name(self.listbox_drinks.get(ACTIVE))
             menu_id=drink_item[0][0]
             price=drink_item[0][2]
-            receipt_id=int(self.receipt_num_lable.cget('text'))
-            
-                
+            receipt_id=int(self.receipt_num_lable.cget('text')) 
             jdate = JalaliDatetime.now()
-            
             date = jdate.todatetime()
-
-
             max_daily_receipt= int(self.daily_receipt_num_lable.cget('text'))
 
             
@@ -81,6 +85,9 @@ class Receipt(Frame):
 
             else:
                 db.increase_count(receipt_id,menu_id)
+
+            
+            load_receipt(receipt_id)
 
         self.listbox_drinks.bind('<Double-Button>', add_drink)
 
@@ -97,13 +104,25 @@ class Receipt(Frame):
         
         def add_food(event):
             food_item=db.get_menu_item_by_name(self.listbox_foods.get(ACTIVE))
-            #adeadada
             menu_id=food_item[0][0]
             price=food_item[0][2]
-            receipt_id=int(self.receipt_num_lable.cget())
+            receipt_id=int(self.receipt_num_lable.cget('text')) 
+            jdate = JalaliDatetime.now()
+            date = jdate.todatetime()
+            max_daily_receipt= int(self.daily_receipt_num_lable.cget('text'))
 
-            print(menu_id)
-            print(price)
+            
+
+            result=db.get_receipt_by_receiptid_menuid(receipt_id,menu_id)
+            if len(result)==0:
+                db.insert_into_receipt(receipt_id,menu_id,1,price,date,max_daily_receipt)
+
+            else:
+                db.increase_count(receipt_id,menu_id)
+
+            
+            load_receipt(receipt_id)
+
 
         self.listbox_foods.bind('<Double-Button>',add_food)
         #end menu form
@@ -149,6 +168,8 @@ class Receipt(Frame):
         self.listbox_receipt = Listbox(self.canvas,background='#B9B9B9', exportselection=False,font=self.kalame_font) # Create a listbox
         #self.canvas.create_window(66.0,179.0,776.0,879.0,window=self.listbox_receipt)
         self.canvas.create_window(420.0,530.0, window=self.listbox_receipt, width=700, height=700) 
+        self.listbox_receipt.configure(justify=RIGHT)
+
 
 
         #end receipt menu

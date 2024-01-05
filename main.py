@@ -8,7 +8,7 @@ from reciept import Receipt
 from main_edit_product import Main_edit_product
 
 OUTPUT_PATH = os.path.abspath(__file__)
-ASSETS_PATH = ASSETS_PATH = os.path.join(OUTPUT_PATH, r"C:\Users\ahmad\OneDrive\Desktop\project\finished\my_project\build\assets\frame0")
+ASSETS_PATH = ASSETS_PATH = os.path.join(OUTPUT_PATH, r"C:\Users\ahmad\OneDrive\Desktop\git_pro\restaurant_pro\assets\frame0")
 
 def relative_to_assets(path: str) -> str:
     return os.path.join(ASSETS_PATH, path)
