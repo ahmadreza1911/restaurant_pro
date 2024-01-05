@@ -188,7 +188,7 @@ class Receipt(Frame):
         if self.max_receipt_num[0][0]==None:
             self.max_receipt_num=0
         else:
-            self.max_receipt_num=int(self.max_receipt_num[0][0]==None)
+            self.max_receipt_num=int(self.max_receipt_num[0][0])
 
         self.max_receipt_num +=1
 
@@ -220,7 +220,7 @@ class Receipt(Frame):
         if self.max_daily_receipt[0][0]==None:
             self.max_daily_receipt=0
         else:
-            self.max_daily_receipt=int(self.max_daily_receipt[0][0]==None)
+            self.max_daily_receipt=int(self.max_daily_receipt[0][0])
 
         self.max_daily_receipt +=1
             

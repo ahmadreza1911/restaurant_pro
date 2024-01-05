@@ -20,7 +20,7 @@ class Database:
                                 [menu_id] INT NOT NULL REFERENCES [table_menu]([ID]), 
                                 [count] INT,
                                 [price] INT,
-                                [date] INT NOT NULL, 
+                                [date] TEXT NOT NULL, 
                                 [daily_receipt_id] INT NOT NULL);
                                 
                             """)
@@ -41,12 +41,14 @@ class Database:
         self.connection.commit()
         self.connection.close()
 
+
     def get_menu_items(self,type_is_food):
         self.connection= sqlite3.connect(self.__db_name)
         self.cursor=self.connection.cursor()
         self.cursor.execute("SELECT * FROM table_menu WHERE type_is_food=?" , (type_is_food,))
         result = self.cursor.fetchall()
         return result
+
     
     def get_max_receipt(self):
         self.connection= sqlite3.connect(self.__db_name)
@@ -55,6 +57,7 @@ class Database:
         result = self.cursor.fetchall()
         return result  
     
+
     def get_menu_item_by_name(self,menu_item_name):
         self.connection= sqlite3.connect(self.__db_name)
         self.cursor=self.connection.cursor()
@@ -62,6 +65,7 @@ class Database:
         result = self.cursor.fetchall()
         return result
     
+
     def insert_into_receipt(self,receipt_id,menu_id,count,price,date,daily_receipt_id):
         self.connection= sqlite3.connect(self.__db_name)
         self.cursor=self.connection.cursor()
@@ -88,7 +92,8 @@ class Database:
         self.cursor.execute("SELECT * FROM table_receipt WHERE receipt_id=? AND menu_id=?" , (receipt_id,menu_id,))
         result = self.cursor.fetchall()
         return result
-    
+
+
     def increase_count(self,receipt_id,menu_id):
         self.connection= sqlite3.connect(self.__db_name)
         self.cursor=self.connection.cursor()
