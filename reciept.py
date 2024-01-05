@@ -73,8 +73,8 @@ class Receipt(Frame):
             menu_id=drink_item[0][0]
             price=drink_item[0][2]
             receipt_id=int(self.receipt_num_lable.cget('text')) 
-            jdate = JalaliDatetime.now()
-            date = jdate.todatetime()
+            date = JalaliDatetime.now().strftime('%Y/%m/%d')
+        
             max_daily_receipt= int(self.daily_receipt_num_lable.cget('text'))
 
             
@@ -107,8 +107,8 @@ class Receipt(Frame):
             menu_id=food_item[0][0]
             price=food_item[0][2]
             receipt_id=int(self.receipt_num_lable.cget('text')) 
-            jdate = JalaliDatetime.now()
-            date = jdate.todatetime()
+            date = JalaliDatetime.now().strftime('%Y/%m/%d')
+            
             max_daily_receipt= int(self.daily_receipt_num_lable.cget('text'))
 
             

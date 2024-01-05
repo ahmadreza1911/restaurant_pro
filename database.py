@@ -49,7 +49,7 @@ class Database:
         result = self.cursor.fetchall()
         return result
 
-    
+
     def get_max_receipt(self):
         self.connection= sqlite3.connect(self.__db_name)
         self.cursor=self.connection.cursor()
@@ -75,10 +75,8 @@ class Database:
 
     
     def get_max_daily_receipt(self):
-        jdate = JalaliDatetime.now()
-            
-        today = jdate.todatetime()
-
+        today = JalaliDatetime.now().strftime('%Y/%m/%d')
+        #today=1402/10/16
         self.connection= sqlite3.connect(self.__db_name)
         self.cursor=self.connection.cursor()
         self.cursor.execute("SELECT MAX(daily_receipt_id) FROM table_receipt WHERE date = ?", (today,))
