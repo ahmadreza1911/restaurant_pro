@@ -54,7 +54,7 @@ class Receipt(Frame):
             self.listbox_receipt.delete(0,'end')
             receipts=db.get_receipt_by_receiptid(receipt_id)
             for receipt in receipts:
-                self.listbox_receipt.insert(0,"%s %s %s %s" % (receipt[1],receipt[2],receipt[3],receipt[4]))
+                self.listbox_receipt.insert(0,"%s-%s %s %s" % (receipt[1],receipt[2],receipt[3],receipt[4]))
 
 
 
@@ -212,8 +212,17 @@ class Receipt(Frame):
         self.increase_bt.place(x=647.0,y=913.0,width=71.0,height=90.0)
 
 
+        def delete_line():
+            receipt_id=int(self.receipt_num_lable.cget('text'))
+            menu_line=self.listbox_receipt.get(ACTIVE)
+            menu_line_name=menu_line.split('-')[0]
+            result=db.get_menu_item_by_name(menu_line_name)
+            menu_line_id=int(result[0][0])
+            db.delete_receipt(receipt_id,menu_line_id)
+            load_receipt(receipt_id)
+
         self.delete_line_image = PhotoImage(file=relative_to_assets("Delete_line.png"))
-        self.delete_line = Button(self,image=self.delete_line_image,borderwidth=0,highlightthickness=0,command=lambda: print("delete_line_image"),relief="flat")
+        self.delete_line = Button(self,image=self.delete_line_image,borderwidth=0,highlightthickness=0,command=delete_line,relief="flat")
         self.delete_line.place(x=470.0,y=913.0,width=161.0,height=90.0)
 
 
@@ -225,7 +234,7 @@ class Receipt(Frame):
             else:
                 max_receipt_num=int(max_receipt_num[0][0])
             max_receipt_num += 1
-            self.receipt_num_lable.config(text="")
+            #self.receipt_num_lable.config(text="")
             self.receipt_num_lable.config(text=max_receipt_num)
             
         self.new_receipt_image = PhotoImage(file=relative_to_assets("New_receipt.png"))
@@ -238,8 +247,7 @@ class Receipt(Frame):
         self.print_receipt.place(x=29.0,y=914.0,width=193.0,height=89.0)
 
 
-        self.listbox_receipt = Listbox(self.canvas,background='#B9B9B9', exportselection=False,font=self.kalame_font) # Create a listbox
-        #self.canvas.create_window(66.0,179.0,776.0,879.0,window=self.listbox_receipt)
+        self.listbox_receipt = Listbox(self.canvas,background='#B9B9B9', exportselection=False,font=self.kalame_font) 
         self.canvas.create_window(420.0,530.0, window=self.listbox_receipt, width=700, height=700) 
         self.listbox_receipt.configure(justify=RIGHT)
 

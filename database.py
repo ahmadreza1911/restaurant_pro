@@ -106,6 +106,14 @@ class Database:
         self.cursor.execute("SELECT * FROM view_menu_receipt WHERE receipt_id=?",(receipt_id,))
         result = self.cursor.fetchall()
         return result
+    
+    def delete_receipt(self,receipt_id,menu_id):
+        self.connection= sqlite3.connect(self.__db_name)
+        self.cursor=self.connection.cursor()
+        self.cursor.execute("DELETE FROM table_receipt WHERE receipt_id=? and menu_id=?",(receipt_id,menu_id,))
+        self.connection.commit()
+        self.connection.close()
+
 
 
 
