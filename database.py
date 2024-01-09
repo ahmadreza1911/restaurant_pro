@@ -138,6 +138,15 @@ class Database:
         return result
     
 
+    def get_max_id_menuid(self):
+        self.connection= sqlite3.connect(self.__db_name)
+        self.cursor=self.connection.cursor()
+        self.cursor.execute("SELECT MAX(ID) FROM table_menu")
+        result = self.cursor.fetchall()
+        return result
+    
+    
+
 
 db=None
 
