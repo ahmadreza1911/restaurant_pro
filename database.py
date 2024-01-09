@@ -99,6 +99,14 @@ class Database:
         self.connection.commit()
         self.connection.close()
 
+    def decrease_count(self,receipt_id,menu_id):
+        self.connection= sqlite3.connect(self.__db_name)
+        self.cursor=self.connection.cursor()
+        self.cursor.execute("UPDATE table_receipt SET count=count-1 WHERE receipt_id=? And menu_id=? and count > 0",(receipt_id,menu_id,))
+        self.cursor.execute("DELETE FROM table_receipt WHERE receipt_id=? and menu_id=? and count=0",(receipt_id,menu_id,))
+        self.connection.commit()
+        self.connection.close()
+
 
     def get_receipt_by_receiptid(self,receipt_id):
         self.connection= sqlite3.connect(self.__db_name)

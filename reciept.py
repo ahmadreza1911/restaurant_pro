@@ -201,14 +201,31 @@ class Receipt(Frame):
 
 
         #end header
+        def decrease_item():
+            menu_item_name=self.listbox_receipt.get(ACTIVE)
+            result=db.get_menu_item_by_name(menu_item_name.split('-')[0])
+            menu_item_id=result[0][0]            
+            receipt_id=int(self.receipt_num_lable.cget('text'))
+            db.decrease_count(receipt_id,menu_item_id)
+            load_receipt(receipt_id)
 
+            
         self.decrease_bt_image = PhotoImage(file=relative_to_assets("Decrease.png"))
-        self.decrease_bt = Button(self,image=self.decrease_bt_image,borderwidth=0,highlightthickness=0,command=lambda: print("Decrease"),relief="flat")
+        self.decrease_bt = Button(self,image=self.decrease_bt_image,borderwidth=0,highlightthickness=0,command=decrease_item,relief="flat")
         self.decrease_bt.place(x=735.0,y=913.0,width=70.0,height=90.0)
 
 
+        def increase_item():
+            menu_item_name=self.listbox_receipt.get(ACTIVE)
+            result=db.get_menu_item_by_name(menu_item_name.split('-')[0])
+            menu_item_id=result[0][0]            
+            receipt_id=int(self.receipt_num_lable.cget('text'))
+            db.increase_count(receipt_id,menu_item_id)
+            load_receipt(receipt_id)
+            
+
         self.increase_bt_image = PhotoImage(file=relative_to_assets("Increase.png"))
-        self.increase_bt = Button(self,image=self.increase_bt_image,borderwidth=0,highlightthickness=0,command=lambda: print("increase_bt_image"),relief="flat")
+        self.increase_bt = Button(self,image=self.increase_bt_image,borderwidth=0,highlightthickness=0,command=increase_item,relief="flat")
         self.increase_bt.place(x=647.0,y=913.0,width=71.0,height=90.0)
 
 

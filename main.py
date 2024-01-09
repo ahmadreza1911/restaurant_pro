@@ -38,12 +38,12 @@ class Main(Frame):
 
         self.edit_menu_btn = PhotoImage(file=relative_to_assets("Edit_menu_btn.png"))
         self.button_edit_menu = Button(self,image=self.edit_menu_btn,borderwidth=0,highlightthickness=0,command=self.show_page_main_edit_product,relief="flat")
-        self.button_edit_menu.place(x=1495.0,y=333.0,width=332.0,height=90.0)
+        self.button_edit_menu.place(x=1495.0,y=487.0,width=332.0,height=90.0)
         
 
         self.edit_recept_btn = PhotoImage(file=relative_to_assets("Edit_receipt_btn.png"))
         self.button_edit_recipt = Button(self,image=self.edit_recept_btn,borderwidth=0,highlightthickness=0,command=lambda: print("Edit_receipt_btn clicked"),relief="flat")
-        self.button_edit_recipt.place(x=1495.0,y=487.0,width=332.0,height=90.0)
+        self.button_edit_recipt.place(x=1495.0,y=333.0,width=332.0,height=90.0)
 
 
         self.reports_btn = PhotoImage(file=relative_to_assets("Reports_btn.png"))
