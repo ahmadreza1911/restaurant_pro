@@ -2,7 +2,7 @@ import os
 from tkinter import *
 from khayyam import *
 from khayyam import jalali_date
-from tkinter import  Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import  Tk, Canvas, Entry, Text, Button, PhotoImage,messagebox
 from database import *
 from tkinter.font import Font
 from datetime import date
@@ -73,7 +73,7 @@ class Edit_receipt(Frame):
             menu_id=drink_item[0][0]
             price=drink_item[0][2]
             receipt_id=int(self.receipt_num_entry.get()) 
-            date = JalaliDatetime.now().strftime('%Y/%m/%d')
+            date = self.label_date.cget('text')
         
             max_daily_receipt= int(self.daily_receipt_num_lable.cget('text'))
 
@@ -107,8 +107,7 @@ class Edit_receipt(Frame):
             menu_id=food_item[0][0]
             price=food_item[0][2]
             receipt_id=int(self.receipt_num_entry.get()) 
-            date = JalaliDatetime.now().strftime('%Y/%m/%d')
-            
+            date = self.label_date.cget('text')
             max_daily_receipt= int(self.daily_receipt_num_lable.cget('text'))
 
             
@@ -155,28 +154,32 @@ class Edit_receipt(Frame):
         def entry_key_release(key):
             try:
                 receipt_id= int(self.receipt_num_entry.get())
-                result=db.get_receipt_by_receipt_id(receipt_id)
+                result=db.get_date_and_daily_receipt_id(receipt_id)
                 load_receipt(receipt_id)
-                self.label_date=result[4]
-                self.daily_receipt_num_lable=result[5]
+                if result== None:
+                    self.label_date.config(text="")
+                    self.daily_receipt_num_lable.config(text="")
+                else:
+                    self.label_date.config(text=result[0][0])
+                    self.daily_receipt_num_lable.config(text=result[0][1])
+                    
                 
             except:
+                
                 self.listbox_receipt.delete(0,'end')
                 self.label_date.config(text='')
                 self.daily_receipt_num_lable.config(text='')
+                
 
 
         self.receipt_num_entry.bind('<KeyRelease>', entry_key_release)
         
         
 
-
-        
-
         self.date_image = PhotoImage(file=relative_to_assets("Date.png"))
         self.canvas.create_image(686.0,109.0,image=self.date_image)
-        self.today = JalaliDatetime.now().strftime('%Y/%m/%d')
-        self.label_date = Label(self, text=self.today ,background="#b1b1b1",font=("Kalameh Regular", 17))
+        #self.today = JalaliDatetime.now().strftime('%Y/%m/%d')
+        self.label_date = Label(self,background="#b1b1b1",font=("Kalameh Regular", 17))
         self.canvas.create_window (686, 109,width=120,height=28 , window=self.label_date) 
 
         self.canvas.create_text(755.0,79.0,anchor="nw",text="تاریخ",fill="#000000",font=("Kalameh Regular", 31 * -1))
@@ -215,7 +218,7 @@ class Edit_receipt(Frame):
             menu_item_name=self.listbox_receipt.get(ACTIVE)
             result=db.get_menu_item_by_name(menu_item_name.split('-')[0])
             menu_item_id=result[0][0]            
-            receipt_id=int(self.receipt_num_entry.get('text'))
+            receipt_id=int(self.receipt_num_entry.get())
             db.increase_count(receipt_id,menu_item_id)
             load_receipt(receipt_id)
             
@@ -226,7 +229,7 @@ class Edit_receipt(Frame):
 
 
         def delete_line():
-            receipt_id=int(self.receipt_num_entry.get('text'))
+            receipt_id=int(self.receipt_num_entry.get())
             menu_line=self.listbox_receipt.get(ACTIVE)
             menu_line_name=menu_line.split('-')[0]
             result=db.get_menu_item_by_name(menu_line_name)

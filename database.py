@@ -130,10 +130,10 @@ class Database:
         result = self.cursor.fetchall()
         return result 
 
-    def get_receipt_by_receipt_id(self,receipt_id):
+    def get_date_and_daily_receipt_id(self,receipt_id):
         self.connection= sqlite3.connect(self.__db_name)
         self.cursor=self.connection.cursor()
-        self.cursor.execute("SELECT * FROM view_menu_receipt WHERE receipt_id=?",(receipt_id,))
+        self.cursor.execute("SELECT date, daily_receipt_id FROM table_receipt WHERE receipt_id = ?", (receipt_id,))
         result = self.cursor.fetchall()
         return result
     
