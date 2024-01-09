@@ -1,7 +1,7 @@
 import os
 from tkinter import *
 from khayyam import *
-from tkinter import  Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import  Tk, Canvas, Entry, Text, Button, PhotoImage,messagebox
 from database import *
 from tkinter.font import Font
 from main import Main
@@ -39,11 +39,15 @@ class App(Tk):
         
         #self.main_edit_product=Main_edit_product(self)
         
-        self.receipt = Receipt(self)
+        #self.receipt = Receipt(self)
 
 
-        #self.main=Main(self)
+        self.main=Main(self)
         #self.main.tkraise
+
+        
+
+        
 
         
         
@@ -52,13 +56,9 @@ class App(Tk):
         self.resizable(False, False)
         self.mainloop()
 
-
-
         
 
-    
-    
-        
 
-   
+
 App()
+

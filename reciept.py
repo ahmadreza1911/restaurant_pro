@@ -126,8 +126,9 @@ class Receipt(Frame):
 
         self.listbox_foods.bind('<Double-Button>',add_food)
         #end menu form
-        
 
+
+       
 
         #receipt menu
 
@@ -139,43 +140,7 @@ class Receipt(Frame):
 
         self.canvas.create_rectangle(53.0,897.0,790.0,898.0,fill="#000000",outline="")
 
-
-        self.decrease_bt_image = PhotoImage(file=relative_to_assets("Decrease.png"))
-        self.decrease_bt = Button(self,image=self.decrease_bt_image,borderwidth=0,highlightthickness=0,command=lambda: print("Decrease"),relief="flat")
-        self.decrease_bt.place(x=735.0,y=913.0,width=70.0,height=90.0)
-
-
-        self.increase_bt_image = PhotoImage(file=relative_to_assets("Increase.png"))
-        self.increase_bt = Button(self,image=self.increase_bt_image,borderwidth=0,highlightthickness=0,command=lambda: print("increase_bt_image"),relief="flat")
-        self.increase_bt.place(x=647.0,y=913.0,width=71.0,height=90.0)
-
-
-        self.delete_line_image = PhotoImage(file=relative_to_assets("Delete_line.png"))
-        self.delete_line = Button(self,image=self.delete_line_image,borderwidth=0,highlightthickness=0,command=lambda: print("delete_line_image"),relief="flat")
-        self.delete_line.place(x=470.0,y=913.0,width=161.0,height=90.0)
-
-
-        self.new_receipt_image = PhotoImage(file=relative_to_assets("New_receipt.png"))
-        self.new_receipt= Button(self,image=self.new_receipt_image,borderwidth=0,highlightthickness=0,command=lambda: print("New_receipt clicked"),relief="flat")
-        self.new_receipt.place(x=240.0,y=913.0,width=212.0,height=90.0)
-
-
-        self.print_receipt_image = PhotoImage(file=relative_to_assets("Print_receipt.png"))
-        self.print_receipt = Button(self,image=self.print_receipt_image,borderwidth=0,highlightthickness=0,command=lambda: print("print_ receipt clicked"),relief="flat")
-        self.print_receipt.place(x=29.0,y=914.0,width=193.0,height=89.0)
-
-
-        self.listbox_receipt = Listbox(self.canvas,background='#B9B9B9', exportselection=False,font=self.kalame_font) # Create a listbox
-        #self.canvas.create_window(66.0,179.0,776.0,879.0,window=self.listbox_receipt)
-        self.canvas.create_window(420.0,530.0, window=self.listbox_receipt, width=700, height=700) 
-        self.listbox_receipt.configure(justify=RIGHT)
-
-
-
-        #end receipt menu
-
-
-        #header
+         #header
 
 
         self.receipt_num_image = PhotoImage(file=relative_to_assets("Receipt_num.png"))
@@ -236,6 +201,54 @@ class Receipt(Frame):
 
 
         #end header
+
+        self.decrease_bt_image = PhotoImage(file=relative_to_assets("Decrease.png"))
+        self.decrease_bt = Button(self,image=self.decrease_bt_image,borderwidth=0,highlightthickness=0,command=lambda: print("Decrease"),relief="flat")
+        self.decrease_bt.place(x=735.0,y=913.0,width=70.0,height=90.0)
+
+
+        self.increase_bt_image = PhotoImage(file=relative_to_assets("Increase.png"))
+        self.increase_bt = Button(self,image=self.increase_bt_image,borderwidth=0,highlightthickness=0,command=lambda: print("increase_bt_image"),relief="flat")
+        self.increase_bt.place(x=647.0,y=913.0,width=71.0,height=90.0)
+
+
+        self.delete_line_image = PhotoImage(file=relative_to_assets("Delete_line.png"))
+        self.delete_line = Button(self,image=self.delete_line_image,borderwidth=0,highlightthickness=0,command=lambda: print("delete_line_image"),relief="flat")
+        self.delete_line.place(x=470.0,y=913.0,width=161.0,height=90.0)
+
+
+        def new_receipt():
+            self.listbox_receipt.delete(0,'end')
+            max_receipt_num=db.get_max_receipt()
+            if max_receipt_num[0][0]==0:
+                max_receipt_num=0
+            else:
+                max_receipt_num=int(max_receipt_num[0][0])
+            max_receipt_num += 1
+            self.receipt_num_lable.config(text="")
+            self.receipt_num_lable.config(text=max_receipt_num)
+            
+        self.new_receipt_image = PhotoImage(file=relative_to_assets("New_receipt.png"))
+        self.new_receipt= Button(self,image=self.new_receipt_image,borderwidth=0,highlightthickness=0,command=new_receipt,relief="flat")
+        self.new_receipt.place(x=240.0,y=913.0,width=212.0,height=90.0)
+
+
+        self.print_receipt_image = PhotoImage(file=relative_to_assets("Print_receipt.png"))
+        self.print_receipt = Button(self,image=self.print_receipt_image,borderwidth=0,highlightthickness=0,command=lambda: print("print_ receipt clicked"),relief="flat")
+        self.print_receipt.place(x=29.0,y=914.0,width=193.0,height=89.0)
+
+
+        self.listbox_receipt = Listbox(self.canvas,background='#B9B9B9', exportselection=False,font=self.kalame_font) # Create a listbox
+        #self.canvas.create_window(66.0,179.0,776.0,879.0,window=self.listbox_receipt)
+        self.canvas.create_window(420.0,530.0, window=self.listbox_receipt, width=700, height=700) 
+        self.listbox_receipt.configure(justify=RIGHT)
+
+
+
+        #end receipt menu
+
+
+        
     
 
     def show_page_home(self):

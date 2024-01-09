@@ -1,11 +1,12 @@
 import os
 from tkinter import *
 #from khayyam import *
-from tkinter import  Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import  Tk, Canvas, Entry, Text, Button, PhotoImage,messagebox
 from database import *
 from tkinter.font import Font
 from reciept import Receipt
 from main_edit_product import Main_edit_product
+
 
 OUTPUT_PATH = os.path.abspath(__file__)
 ASSETS_PATH = ASSETS_PATH = os.path.join(OUTPUT_PATH, r"C:\Users\ahmad\OneDrive\Desktop\git_pro\restaurant_pro\assets\frame0")
@@ -16,6 +17,7 @@ def relative_to_assets(path: str) -> str:
 
 class Main(Frame):
     def __init__(self,parent):
+        
         super().__init__(parent)
         self.place(x = 0, y = 0)
         self.canvas=Canvas(self,bg = "black",height = 1080,width = 1920,bd = 0,highlightthickness = 0,relief = "ridge")
@@ -48,9 +50,16 @@ class Main(Frame):
         self.button_reports = Button(self,image=self.reports_btn,borderwidth=0,highlightthickness=0,command=lambda: print("Reports_btn clicked"),relief="flat")
         self.button_reports.place(x=1495.0,y=641.0,width=332.0,height=90.0)
 
-        
+        def exit_program(self):
+         
+            message_box = messagebox.askquestion('خروج','آیا مطمئن به خروج هستید؟',icon='warning')
+            if message_box == 'yes':
+                self.parent.destroy()
+    
+            else:
+                return         
         self.exit_btn = PhotoImage(file=relative_to_assets("Exit_btn.png"))
-        self.button_exit = Button(self,image=self.exit_btn,borderwidth=0,highlightthickness=0,command=self.destroy,relief="flat")
+        self.button_exit = Button(self,image=self.exit_btn,borderwidth=0,highlightthickness=0,command=exit_program,relief="flat")
         self.button_exit.place(x=1496.0,y=795.0,width=332.0,height=90.0)
     
 
@@ -74,3 +83,4 @@ class Main(Frame):
 
         
         self.main_edit_product.pack()
+               
