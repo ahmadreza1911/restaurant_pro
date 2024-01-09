@@ -1,4 +1,3 @@
-
 import os
 from tkinter import *
 from khayyam import *
@@ -60,7 +59,7 @@ class Edit_receipt(Frame):
 
 
 
-        self.listbox_drinks = Listbox(self.canvas,background='#B9B9B9', exportselection=False,font=self.kalame_font) 
+        self.listbox_drinks = Listbox(self.canvas,background='#B9B9B9', exportselection=False,font=self.kalame_font) # Create a listbox
         self.canvas.create_window(1125.0,569.0, window=self.listbox_drinks, width=470, height=780) 
         self.listbox_drinks.configure(justify=RIGHT)
 
@@ -73,7 +72,7 @@ class Edit_receipt(Frame):
             drink_item=db.get_menu_item_by_name(self.listbox_drinks.get(ACTIVE))
             menu_id=drink_item[0][0]
             price=drink_item[0][2]
-            receipt_id=int(self.receipt_num_lable.cget('text')) 
+            receipt_id=int(self.receipt_num_entry.get()) 
             date = JalaliDatetime.now().strftime('%Y/%m/%d')
         
             max_daily_receipt= int(self.daily_receipt_num_lable.cget('text'))
@@ -107,7 +106,7 @@ class Edit_receipt(Frame):
             food_item=db.get_menu_item_by_name(self.listbox_foods.get(ACTIVE))
             menu_id=food_item[0][0]
             price=food_item[0][2]
-            receipt_id=int(self.receipt_num_lable.cget('text')) 
+            receipt_id=int(self.receipt_num_entry.get()) 
             date = JalaliDatetime.now().strftime('%Y/%m/%d')
             
             max_daily_receipt= int(self.daily_receipt_num_lable.cget('text'))
@@ -147,23 +146,32 @@ class Edit_receipt(Frame):
         self.receipt_num_image = PhotoImage(file=relative_to_assets("Receipt_num.png"))
         self.canvas.create_image(426.0,109.0,image=self.receipt_num_image)
 
-        self.receipt_num_button=Button(self,background="#b1b1b1",font=("Kalameh Regular", 28))
-        self.canvas.create_window (426.0, 109.0,width=120,height=28,window=self.receipt_num_button) 
-
-        """ self.max_receipt_num = db.get_max_receipt()
-        if self.max_receipt_num[0][0]==None:
-            self.max_receipt_num=0
-        else:
-            self.max_receipt_num=int(self.max_receipt_num[0][0])
-
-        self.max_receipt_num +=1
+        self.canvas.create_text(492.0,79.0,anchor="nw",text="شماره فاکتور",fill="#000000",font=("Kalameh Regular", 31 * -1))
+        self.receipt_num_entry=Entry(self,background="#b1b1b1",font=("Kalameh Regular", 28),justify='center')
+        self.canvas.create_window (426.0, 109.0,width=100,height=40,window=self.receipt_num_entry) 
 
 
-        self.receipt_num_lable.config(text=self.max_receipt_num) """
+
+        def entry_key_release(key):
+            try:
+                receipt_id= int(self.receipt_num_entry.get())
+                result=db.get_receipt_by_receipt_id(receipt_id)
+                load_receipt(receipt_id)
+                self.label_date=result[4]
+                self.daily_receipt_num_lable=result[5]
+                
+            except:
+                self.listbox_receipt.delete(0,'end')
+                self.label_date.config(text='')
+                self.daily_receipt_num_lable.config(text='')
+
+
+        self.receipt_num_entry.bind('<KeyRelease>', entry_key_release)
+        
         
 
 
-        self.canvas.create_text(492.0,79.0,anchor="nw",text="شماره فاکتور",fill="#000000",font=("Kalameh Regular", 31 * -1))
+        
 
         self.date_image = PhotoImage(file=relative_to_assets("Date.png"))
         self.canvas.create_image(686.0,109.0,image=self.date_image)
@@ -182,19 +190,6 @@ class Edit_receipt(Frame):
         self.canvas.create_window (103.0, 109.0,width=120,height=28,window=self.daily_receipt_num_lable)
 
 
-        self.max_daily_receipt = db.get_max_daily_receipt()
-        if self.max_daily_receipt[0][0]==None:
-            self.max_daily_receipt=0
-        else:
-            self.max_daily_receipt=int(self.max_daily_receipt[0][0])
-
-        self.max_daily_receipt +=1
-            
-        
-
-        self.daily_receipt_num_lable.config(text=self.max_daily_receipt)
-
-
 
         self.home_img = PhotoImage(file=relative_to_assets("Home_btn.png"))
         self.home_btn= Button(self,image=self.home_img,borderwidth=0,highlightthickness=0,command=self.show_page_home,relief="flat")
@@ -206,32 +201,32 @@ class Edit_receipt(Frame):
             menu_item_name=self.listbox_receipt.get(ACTIVE)
             result=db.get_menu_item_by_name(menu_item_name.split('-')[0])
             menu_item_id=result[0][0]            
-            receipt_id=int(self.receipt_num_lable.cget('text'))
+            receipt_id=int(self.receipt_num_entry.get())
             db.decrease_count(receipt_id,menu_item_id)
             load_receipt(receipt_id)
 
             
         self.decrease_bt_image = PhotoImage(file=relative_to_assets("Decrease.png"))
         self.decrease_bt = Button(self,image=self.decrease_bt_image,borderwidth=0,highlightthickness=0,command=decrease_item,relief="flat")
-        self.decrease_bt.place(x=735.0,y=913.0,width=70.0,height=90.0)
+        self.decrease_bt.place(x=656.0,y=913.0,width=70.0,height=90.0)
 
 
         def increase_item():
             menu_item_name=self.listbox_receipt.get(ACTIVE)
             result=db.get_menu_item_by_name(menu_item_name.split('-')[0])
             menu_item_id=result[0][0]            
-            receipt_id=int(self.receipt_num_lable.cget('text'))
+            receipt_id=int(self.receipt_num_entry.get('text'))
             db.increase_count(receipt_id,menu_item_id)
             load_receipt(receipt_id)
             
 
         self.increase_bt_image = PhotoImage(file=relative_to_assets("Increase.png"))
         self.increase_bt = Button(self,image=self.increase_bt_image,borderwidth=0,highlightthickness=0,command=increase_item,relief="flat")
-        self.increase_bt.place(x=647.0,y=913.0,width=71.0,height=90.0)
+        self.increase_bt.place(x=550.0,y=913.0,width=71.0,height=90.0)
 
 
         def delete_line():
-            receipt_id=int(self.receipt_num_lable.cget('text'))
+            receipt_id=int(self.receipt_num_entry.get('text'))
             menu_line=self.listbox_receipt.get(ACTIVE)
             menu_line_name=menu_line.split('-')[0]
             result=db.get_menu_item_by_name(menu_line_name)
@@ -241,28 +236,14 @@ class Edit_receipt(Frame):
 
         self.delete_line_image = PhotoImage(file=relative_to_assets("Delete_line.png"))
         self.delete_line = Button(self,image=self.delete_line_image,borderwidth=0,highlightthickness=0,command=delete_line,relief="flat")
-        self.delete_line.place(x=470.0,y=913.0,width=161.0,height=90.0)
+        self.delete_line.place(x=354.0,y=913.0,width=161.0,height=90.0)
 
 
-        def new_receipt():
-            self.listbox_receipt.delete(0,'end')
-            max_receipt_num=db.get_max_receipt()
-            if max_receipt_num[0][0]==0:
-                max_receipt_num=0
-            else:
-                max_receipt_num=int(max_receipt_num[0][0])
-            max_receipt_num += 1
-            #self.receipt_num_lable.config(text="")
-            self.receipt_num_lable.config(text=max_receipt_num)
-            
-        self.new_receipt_image = PhotoImage(file=relative_to_assets("New_receipt.png"))
-        self.new_receipt= Button(self,image=self.new_receipt_image,borderwidth=0,highlightthickness=0,command=new_receipt,relief="flat")
-        self.new_receipt.place(x=240.0,y=913.0,width=212.0,height=90.0)
 
 
         self.print_receipt_image = PhotoImage(file=relative_to_assets("Print_receipt.png"))
         self.print_receipt = Button(self,image=self.print_receipt_image,borderwidth=0,highlightthickness=0,command=lambda: print("print_ receipt clicked"),relief="flat")
-        self.print_receipt.place(x=29.0,y=914.0,width=193.0,height=89.0)
+        self.print_receipt.place(x=126.0,y=914.0,width=193.0,height=89.0)
 
 
         self.listbox_receipt = Listbox(self.canvas,background='#B9B9B9', exportselection=False,font=self.kalame_font) 

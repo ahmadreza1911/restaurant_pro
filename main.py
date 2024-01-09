@@ -91,4 +91,4 @@ class Main(Frame):
         self.edit_receipt = Edit_receipt(self.master)
 
         
-        self.receipt.pack()
+        self.edit_receipt.pack()
