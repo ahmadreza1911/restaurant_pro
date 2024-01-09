@@ -6,6 +6,7 @@ from database import *
 from tkinter.font import Font
 from reciept import Receipt
 from main_edit_product import Main_edit_product
+from edit_receipt import Edit_receipt
 
 
 OUTPUT_PATH = os.path.abspath(__file__)
@@ -42,7 +43,7 @@ class Main(Frame):
         
 
         self.edit_recept_btn = PhotoImage(file=relative_to_assets("Edit_receipt_btn.png"))
-        self.button_edit_recipt = Button(self,image=self.edit_recept_btn,borderwidth=0,highlightthickness=0,command=lambda: print("Edit_receipt_btn clicked"),relief="flat")
+        self.button_edit_recipt = Button(self,image=self.edit_recept_btn,borderwidth=0,highlightthickness=0,command=self.show_page_edit_receipt,relief="flat")
         self.button_edit_recipt.place(x=1495.0,y=333.0,width=332.0,height=90.0)
 
 
@@ -83,4 +84,11 @@ class Main(Frame):
 
         
         self.main_edit_product.pack()
-               
+    def show_page_edit_receipt(self):
+        
+        self.destroy()
+
+        self.edit_receipt = Edit_receipt(self.master)
+
+        
+        self.receipt.pack()
