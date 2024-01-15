@@ -9,6 +9,7 @@ from reciept import Receipt
 from main_edit_product import Main_edit_product
 from add_product import Add_product
 from database import Database
+from edit_product import Edit_product
 
 OUTPUT_PATH = os.path.abspath(__file__)
 ASSETS_PATH = os.path.join(OUTPUT_PATH, r"C:\Users\ahmad\OneDrive\Desktop\git_pro\restaurant_pro\assets\frame0")
@@ -37,12 +38,12 @@ class App(Tk):
         self.kalame_font = Font(family="Kalame Regular", size=25)
         
         
-        #self.main_edit_product=Main_edit_product(self)
+        self.edit_product=Edit_product(self)
         
         #self.receipt = Receipt(self)
 
 
-        self.main=Main(self)
+        #self.main=Main(self)
         #self.main.tkraise
 
         

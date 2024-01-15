@@ -256,6 +256,7 @@ class Receipt(Frame):
                 max_daily_receipt=100
             else:
                 max_daily_receipt=int(max_daily_receipt[0][0])
+                
             max_daily_receipt += 1
 
             self.daily_receipt_num_lable.config(text=max_daily_receipt)
