@@ -152,10 +152,6 @@ db=None
 
 if os.path.isfile('restaurant.db')== False:
     db= Database('restaurant.db')
-    db.insert(1, 'هات داگ',22000,True)
-    db.insert(2, 'برنج',25000,True)
-    db.insert(3, 'نوشابه',22000,False)
-    db.insert(4, 'آب معدنی',22000,False)
 else:
     db= Database('restaurant.db')
 

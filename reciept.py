@@ -280,20 +280,9 @@ class Receipt(Frame):
         from main import Main
         
         self.destroy()
-        
-
-        # Create an instance of the MainFrame class
         self.main = Main(self.master)
         self.main.pack()
-        #self.decrease_bt.place_forget()
-        #self.increase_bt.place_forget()
-        #self.delete_line.place_forget()
-        #self.new_receipt.place_forget()
-        #self.print_receipt.place_forget()
-        #self..place_forget()
-        #self..place_forget()
-        #self.main=Main(self)
-        #self.main.tkraise()
+        
 
 
 

@@ -99,20 +99,12 @@ class Main_edit_product(Frame):
 
     def show_page_home(self):
         from main import Main
-            
         self.destroy()
-            
-
-        # Create an instance of the MainFrame class
         self.main = Main(self.master)
         self.main.pack()
 
     
     def show_add_product(self):
         from add_product import Add_product
-        
-        #self.destroy()
-        
-
         self.add_product=Add_product(self)
         self.add_product.grab_set()
