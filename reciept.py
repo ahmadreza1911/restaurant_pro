@@ -183,7 +183,7 @@ class Receipt(Frame):
 
         self.max_daily_receipt = db.get_max_daily_receipt()
         if self.max_daily_receipt[0][0]==None:
-            self.max_daily_receipt=0
+            self.max_daily_receipt=100
         else:
             self.max_daily_receipt=int(self.max_daily_receipt[0][0])
 
@@ -246,12 +246,19 @@ class Receipt(Frame):
         def new_receipt():
             self.listbox_receipt.delete(0,'end')
             max_receipt_num=db.get_max_receipt()
-            if max_receipt_num[0][0]==0:
+            max_daily_receipt=db.get_max_daily_receipt()
+            if max_receipt_num[0][0]==None :
                 max_receipt_num=0
             else:
                 max_receipt_num=int(max_receipt_num[0][0])
             max_receipt_num += 1
-            #self.receipt_num_lable.config(text="")
+            if max_daily_receipt==None:
+                max_daily_receipt=100
+            else:
+                max_daily_receipt=int(max_daily_receipt[0][0])
+            max_daily_receipt += 1
+
+            self.daily_receipt_num_lable.config(text=max_daily_receipt)
             self.receipt_num_lable.config(text=max_receipt_num)
             
         self.new_receipt_image = PhotoImage(file=relative_to_assets("New_receipt.png"))

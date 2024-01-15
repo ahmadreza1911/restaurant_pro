@@ -88,7 +88,7 @@ class Add_product(Toplevel):
 
         def submit_data():
             id=db.get_max_id_menuid()
-            if id[0][0]==0:
+            if id[0][0]==None:
                 id=0
             else:
                 id=int(id[0][0])
