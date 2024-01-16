@@ -88,7 +88,7 @@ class Main_edit_product(Frame):
         self.add_product_btn.place(x=247.0,y=352.0,width=347.0,height=147.0)
 
         self.edit_product_img = PhotoImage(file=relative_to_assets("Edit_product_btn.png"))
-        self.edit_product_btn = Button(self,image=self.edit_product_img,borderwidth=0,highlightthickness=0,command=lambda: print("button_2 clicked"),relief="flat")
+        self.edit_product_btn = Button(self,image=self.edit_product_img,borderwidth=0,highlightthickness=0,command=self.show_edit_product,relief="flat")
         self.edit_product_btn.place(x=247.0,y=580.0,width=347.0,height=147.0)
 
 
@@ -108,3 +108,10 @@ class Main_edit_product(Frame):
         from add_product import Add_product
         self.add_product=Add_product(self)
         self.add_product.grab_set()
+
+
+    def show_edit_product(self):
+        from edit_product import Edit_product
+        self.destroy()
+        self.edit_product=Edit_product(self)
+        self.edit_product.pack()

@@ -53,7 +53,7 @@ class Add_product(Toplevel):
 
         def validate(user_input):
             # اگر ورودی کاربر عددی باشد
-            if user_input.isdigit():
+            if user_input == "" or user_input.isdigit():
                 # برگرداندن True
                 return True
             # در غیر این صورت

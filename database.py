@@ -41,6 +41,8 @@ class Database:
         self.connection.commit()
         self.connection.close()
 
+    
+
 
     def get_menu_items(self,type_is_food):
         self.connection= sqlite3.connect(self.__db_name)
@@ -146,12 +148,19 @@ class Database:
         return result
     
     
-
+    def update(self,id,name,price,type_is_food):
+            self.connection= sqlite3.connect(self.__db_name)
+            self.cursor=self.connection.cursor()
+            self.cursor.execute("UPDATE table_menu SET name=?, price=?, type_is_food=? WHERE id=?", (name, price, type_is_food, id))
+            #self.cursor.execute("UPDATE table_menu SET name=? ,price=? ,type_of_food=? WHERE id = ?",(name, price,type_is_food,id) )
+            self.connection.commit()
+            self.connection.close()
 
 db=None
 
 if os.path.isfile('restaurant.db')== False:
     db= Database('restaurant.db')
+    db.update(name='برگر زغالی')
 else:
     db= Database('restaurant.db')
 
