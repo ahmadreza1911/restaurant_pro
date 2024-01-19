@@ -151,7 +151,10 @@ class Database:
     def update(self,id,name,price,type_is_food):
             self.connection= sqlite3.connect(self.__db_name)
             self.cursor=self.connection.cursor()
-            self.cursor.execute("UPDATE table_menu SET name=?, price=?, type_is_food=? WHERE id=?", (name, price, type_is_food, id))
+            update_query = """UPDATE table_menu SET name = ?, price = ?, type_is_food = ? WHERE ID = ?"""
+            # execue the query with the new values
+            self.cursor.execute(update_query, (name, price, type_is_food, id))
+            #self.cursor.execute("UPDATE table_menu SET name=?, price=?, type_is_food=? WHERE id=?", (name, price, type_is_food, id))
             #self.cursor.execute("UPDATE table_menu SET name=? ,price=? ,type_of_food=? WHERE id = ?",(name, price,type_is_food,id) )
             self.connection.commit()
             self.connection.close()

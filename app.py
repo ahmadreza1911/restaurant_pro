@@ -38,13 +38,13 @@ class App(Tk):
         self.kalame_font = Font(family="Kalame Regular", size=25)
         
         
-        self.edit_product=Edit_product(self)
+        #self.edit_product=Edit_product(self)
         
         #self.receipt = Receipt(self)
 
 
-        #self.main=Main(self)
-        #self.main.tkraise
+        self.main=Main(self)
+                                                                                                         #self.main.tkraise
 
         
         self.resizable(False, False)

@@ -186,7 +186,8 @@ class Edit_product(Frame):
                 messagebox.showerror("Error", "Price must be an integer")
                 return
             try: 
-                db.update(name,price,type_of_food,id)
+                db.update(id,name,price,type_of_food)
+                print( id,name,price,type_of_food)
                 messagebox.showinfo("Success", "Data updated to the database")
             except:
                 messagebox.showerror("Error", "Name already exists in the database")
@@ -194,9 +195,22 @@ class Edit_product(Frame):
 
 
 
+
         self.submit = PhotoImage(file=relative_to_assets("Submit.png"))
         self.submit_btn = Button(image=self.submit,borderwidth=0,highlightthickness=0,command=submit_data,relief="flat")
         self.submit_btn.place(x=271.8,y=731.4,width=298.667,height=127.6)
+
+
+
+
+
+        self.delete_button_img = PhotoImage(file=relative_to_assets("Delete_btn.png"))
+        self.delete_button = Button(image=self.delete_button_img,borderwidth=0,highlightthickness=0,command=lambda: print("button_2 clicked"),relief="flat")
+        self.delete_button.place(x=99.0,y=763.0,width=148.0,height=64.0)
+
+
+
+
 
         self.canvas.create_text(513.0,538.0,anchor="nw",text="انتخاب نوع منو",fill="#050202",font=("Kalameh Regular", 35 * -1))
         self.canvas.create_text(492.0,241.0,anchor="nw",text="نام غذا یا نوشیدنی ",fill="#050202",font=("Kalameh Regular", 35 * -1))

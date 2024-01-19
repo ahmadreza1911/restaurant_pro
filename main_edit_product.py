@@ -113,5 +113,5 @@ class Main_edit_product(Frame):
     def show_edit_product(self):
         from edit_product import Edit_product
         self.destroy()
-        self.edit_product=Edit_product(self)
+        self.edit_product=Edit_product(self.master)
         self.edit_product.pack()
