@@ -201,11 +201,21 @@ class Edit_product(Frame):
         self.submit_btn.place(x=271.8,y=731.4,width=298.667,height=127.6)
 
 
+        def delete_data():
+            id =int(self.id_entry.get())
+            answer = messagebox.askokcancel("Confirm delete", "Are you sure you want to delete this food?")
+            if answer == True:
+                db.delete(id)
+                messagebox.showinfo("Success", "Data deleted from the database")
+            else:
+                return
+
+
 
 
 
         self.delete_button_img = PhotoImage(file=relative_to_assets("Delete_btn.png"))
-        self.delete_button = Button(image=self.delete_button_img,borderwidth=0,highlightthickness=0,command=lambda: print("button_2 clicked"),relief="flat")
+        self.delete_button = Button(image=self.delete_button_img,borderwidth=0,highlightthickness=0,command=delete_data,relief="flat")
         self.delete_button.place(x=99.0,y=763.0,width=148.0,height=64.0)
 
 

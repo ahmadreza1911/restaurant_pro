@@ -107,6 +107,9 @@ class Add_product(Toplevel):
             try: 
                 db.insert(id,name,price,type_of_food)
                 messagebox.showinfo("Success", "Data added to the database")
+                self.name_entry.delete(0,END)
+                self.price_entry.delete(0,END)
+
             except:
                 messagebox.showerror("Error", "Name already exists in the database")
         self.confrim_btn = PhotoImage(file=relative_to_assets("Confrim_btn.png"))
