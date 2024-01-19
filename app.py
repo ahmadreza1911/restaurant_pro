@@ -44,8 +44,7 @@ class App(Tk):
 
 
         self.main=Main(self)
-                                                                                                         #self.main.tkraise
-
+                                                                                                        
         
         self.resizable(False, False)
         self.mainloop()

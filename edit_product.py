@@ -228,7 +228,7 @@ class Edit_product(Frame):
 
 
 
-        self.home_img = PhotoImage(file=relative_to_assets("back.png"))
+        self.home_img = PhotoImage(file=relative_to_assets("Big_back.png"))
         self.home_btn= Button(self,image=self.home_img,borderwidth=0,highlightthickness=0,command=self.show_page_home,relief="flat")
         self.home_btn.place(x=45.0,y=5.0,width=50.0,height=50.0)
 
