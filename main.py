@@ -7,6 +7,7 @@ from tkinter.font import Font
 from reciept import Receipt
 from main_edit_product import Main_edit_product
 from edit_receipt import Edit_receipt
+from reports import Reports
 
 
 OUTPUT_PATH = os.path.abspath(__file__)
@@ -48,7 +49,7 @@ class Main(Frame):
 
 
         self.reports_btn = PhotoImage(file=relative_to_assets("Reports_btn.png"))
-        self.button_reports = Button(self,image=self.reports_btn,borderwidth=0,highlightthickness=0,command=lambda: print("Reports_btn clicked"),relief="flat")
+        self.button_reports = Button(self,image=self.reports_btn,borderwidth=0,highlightthickness=0,command=self.show_page_reports,relief="flat")
         self.button_reports.place(x=1495.0,y=641.0,width=332.0,height=90.0)
 
         def exit_program(self):
@@ -92,3 +93,12 @@ class Main(Frame):
 
         
         self.edit_receipt.pack()
+
+    def show_page_reports(self):
+        
+        self.destroy()
+
+        self.reports = Reports(self.master)
+
+        
+        self.reports.pack()

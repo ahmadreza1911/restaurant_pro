@@ -34,6 +34,7 @@ class Database:
         self.connection.commit()
         self.connection.close()
     
+
     def insert(self,id,name,price,type_is_food):
         self.connection= sqlite3.connect(self.__db_name)
         self.cursor=self.connection.cursor()
@@ -42,8 +43,6 @@ class Database:
         self.connection.close()
 
     
-
-
     def get_menu_items(self,type_is_food):
         self.connection= sqlite3.connect(self.__db_name)
         self.cursor=self.connection.cursor()
@@ -101,6 +100,7 @@ class Database:
         self.connection.commit()
         self.connection.close()
 
+
     def decrease_count(self,receipt_id,menu_id):
         self.connection= sqlite3.connect(self.__db_name)
         self.cursor=self.connection.cursor()
@@ -117,6 +117,7 @@ class Database:
         result = self.cursor.fetchall()
         return result
     
+
     def delete_receipt(self,receipt_id,menu_id):
         self.connection= sqlite3.connect(self.__db_name)
         self.cursor=self.connection.cursor()
@@ -131,6 +132,7 @@ class Database:
         self.cursor.execute('SELECT * FROM table_receipt WHERE receipt_id = ?', (receipt_id,))
         result = self.cursor.fetchall()
         return result 
+
 
     def get_date_and_daily_receipt_id(self,receipt_id):
         self.connection= sqlite3.connect(self.__db_name)
@@ -167,7 +169,6 @@ db=None
 
 if os.path.isfile('restaurant.db')== False:
     db= Database('restaurant.db')
-    db.update(name='برگر زغالی')
 else:
     db= Database('restaurant.db')
 
