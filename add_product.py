@@ -8,7 +8,7 @@ from main import Main
 
 
 OUTPUT_PATH = os.path.abspath(__file__)
-ASSETS_PATH = os.path.join(OUTPUT_PATH, r"C:\Users\ahmad\OneDrive\Desktop\git_pro\restaurant_pro\assets\frame0")
+ASSETS_PATH = os.path.join(OUTPUT_PATH, r"C:\Users\ahmad\OneDrive\Desktop\restaurant_pro\assets\frame0")
 
 def relative_to_assets(path: str) -> str:
     return os.path.join(ASSETS_PATH, path)
@@ -109,6 +109,7 @@ class Add_product(Toplevel):
                 messagebox.showinfo("Success", "Data added to the database")
                 self.name_entry.delete(0,END)
                 self.price_entry.delete(0,END)
+                
 
             except:
                 messagebox.showerror("Error", "Name already exists in the database")

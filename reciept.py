@@ -10,7 +10,7 @@ from datetime import date
 
 
 OUTPUT_PATH = os.path.abspath(__file__)
-ASSETS_PATH = os.path.join(OUTPUT_PATH, r"C:\Users\ahmad\OneDrive\Desktop\git_pro\restaurant_pro\assets\frame0")
+ASSETS_PATH = os.path.join(OUTPUT_PATH, r"C:\Users\ahmad\OneDrive\Desktop\restaurant_pro\assets\frame0")
 
 def relative_to_assets(path: str) -> str:
     return os.path.join(ASSETS_PATH, path)

@@ -7,7 +7,7 @@ from tkinter.font import Font
 from reciept import Receipt
 
 OUTPUT_PATH = os.path.abspath(__file__)
-ASSETS_PATH = ASSETS_PATH = os.path.join(OUTPUT_PATH, r"C:\Users\ahmad\OneDrive\Desktop\git_pro\restaurant_pro\assets\frame0")
+ASSETS_PATH = ASSETS_PATH = os.path.join(OUTPUT_PATH, r"C:\Users\ahmad\OneDrive\Desktop\restaurant_pro\assets\frame0")
 
 def relative_to_assets(path: str) -> str:
     return os.path.join(ASSETS_PATH, path)
@@ -56,23 +56,24 @@ class Edit_product(Frame):
         self.canvas.create_window(1125.0,569.0, window=self.listbox_drinks, width=470, height=780) 
         self.listbox_drinks.configure(justify=RIGHT)
 
-        drinks=db.get_menu_items(False)
-
-        for drink in drinks:
-            self.listbox_drinks.insert("end",drink[1])
-
 
         self.listbox_foods = Listbox(self.canvas,background='#B9B9B9', exportselection=False,font=self.kalame_font) # Create a listbox
         self.canvas.create_window(1636.0,570.0, window=self.listbox_foods, width=470, height=780) 
         self.listbox_foods.configure(justify=RIGHT)
+        def load_listbox(self):
+            drinks=db.get_menu_items(False)
+            for drink in drinks:
+                self.listbox_drinks.insert("end",drink[1])
 
-        foods=db.get_menu_items(True)
+            foods=db.get_menu_items(True)
+            for food in foods:
+                self.listbox_foods.insert("end",food[1])
 
-        for food in foods:
-            self.listbox_foods.insert("end",food[1])
+        load_listbox(self) # call the function
+
         #end menu form
         
-         #receipt menu
+        #receipt menu
 
         self.receipt_bg = PhotoImage(file=relative_to_assets("Receipt_bg.png"))
         self.canvas.create_image(421.0,540.0,image=self.receipt_bg)
@@ -187,8 +188,11 @@ class Edit_product(Frame):
                 return
             try: 
                 db.update(id,name,price,type_of_food)
-                print( id,name,price,type_of_food)
                 messagebox.showinfo("Success", "Data updated to the database")
+                self.listbox_drinks.delete(0, END) 
+                self.listbox_foods.delete(0, END) 
+
+                load_listbox(self)
             except:
                 messagebox.showerror("Error", "Name already exists in the database")
 
@@ -204,9 +208,13 @@ class Edit_product(Frame):
         def delete_data():
             id =int(self.id_entry.get())
             answer = messagebox.askokcancel("Confirm delete", "Are you sure you want to delete this food?")
+            
             if answer == True:
                 db.delete(id)
                 messagebox.showinfo("Success", "Data deleted from the database")
+                self.listbox_foods.delete(0, END) 
+                self.listbox_drinks.delete(0, END) 
+                load_listbox(self)
             else:
                 return
 

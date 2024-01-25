@@ -7,7 +7,7 @@ from tkinter.font import Font
 from reciept import Receipt
 
 OUTPUT_PATH = os.path.abspath(__file__)
-ASSETS_PATH = ASSETS_PATH = os.path.join(OUTPUT_PATH, r"C:\Users\ahmad\OneDrive\Desktop\git_pro\restaurant_pro\assets\frame0")
+ASSETS_PATH = ASSETS_PATH = os.path.join(OUTPUT_PATH, r"C:\Users\ahmad\OneDrive\Desktop\restaurant_pro\assets\frame0")
 
 def relative_to_assets(path: str) -> str:
     return os.path.join(ASSETS_PATH, path)
@@ -56,20 +56,28 @@ class Main_edit_product(Frame):
         self.canvas.create_window(1125.0,569.0, window=self.listbox_drinks, width=470, height=780) 
         self.listbox_drinks.configure(justify=RIGHT)
 
-        drinks=db.get_menu_items(False)
-
-        for drink in drinks:
-            self.listbox_drinks.insert("end",drink[1])
-
-
         self.listbox_foods = Listbox(self.canvas,background='#B9B9B9', exportselection=False,font=self.kalame_font) # Create a listbox
         self.canvas.create_window(1636.0,570.0, window=self.listbox_foods, width=470, height=780) 
         self.listbox_foods.configure(justify=RIGHT)
 
-        foods=db.get_menu_items(True)
 
-        for food in foods:
-            self.listbox_foods.insert("end",food[1])
+        def load_listbox(self):
+            drinks=db.get_menu_items(False)
+
+            for drink in drinks:
+                self.listbox_drinks.insert("end",drink[1])
+
+            foods=db.get_menu_items(True)
+
+            for food in foods:
+                self.listbox_foods.insert("end",food[1])
+
+        load_listbox(self)
+
+        def delete_listbox(self):
+            self.listbox_drinks.delete(0,END)
+            self.listbox_foods.delete(0,END)
+
         #end menu form
         
          #receipt menu
