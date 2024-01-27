@@ -55,7 +55,10 @@ class Receipt(Frame):
             receipts=db.get_receipt_by_receiptid(receipt_id)
             for receipt in receipts:
                 self.listbox_receipt.insert(0,"%s-%s %s %s" % (receipt[1],receipt[2],receipt[3],receipt[4]))
-
+                total=db.get_total_by_receipt_id(receipt_id)
+                self.total_label.config(text="")
+                self.total_label.config(text=total)
+            
 
 
 
@@ -77,7 +80,6 @@ class Receipt(Frame):
         
             max_daily_receipt= int(self.daily_receipt_num_lable.cget('text'))
 
-            
 
             result=db.get_receipt_by_receiptid_menuid(receipt_id,menu_id)
             if len(result)==0:
@@ -111,7 +113,6 @@ class Receipt(Frame):
             
             max_daily_receipt= int(self.daily_receipt_num_lable.cget('text'))
 
-            
 
             result=db.get_receipt_by_receiptid_menuid(receipt_id,menu_id)
             if len(result)==0:
@@ -181,6 +182,13 @@ class Receipt(Frame):
         self.canvas.create_window (103.0, 109.0,width=120,height=28,window=self.daily_receipt_num_lable)
 
 
+        self.canvas.create_text(365.0,835.0,anchor="nw",text="مبلغ کل",fill="#000000",font=("Kalameh Regular", 31 * -1))
+        self.total_image = PhotoImage(file=relative_to_assets("Total_label.png"))
+        self.canvas.create_image(216.0,855.0,image=self.total_image)
+        self.total_label=Label(self,background="#929292",font=("Kalameh Regular", 28))
+        self.canvas.create_window (216.0, 855.0,width=120,height=28,window=self.total_label)
+        
+
         self.max_daily_receipt = db.get_max_daily_receipt()
         if self.max_daily_receipt[0][0]==None:
             self.max_daily_receipt=100
@@ -245,6 +253,7 @@ class Receipt(Frame):
 
         def new_receipt():
             self.listbox_receipt.delete(0,'end')
+            self.total_label.config(text="")
             max_receipt_num=db.get_max_receipt()
             max_daily_receipt=db.get_max_daily_receipt()
             if max_receipt_num[0][0]==None :
@@ -273,7 +282,8 @@ class Receipt(Frame):
 
 
         self.listbox_receipt = Listbox(self.canvas,background='#B9B9B9', exportselection=False,font=self.kalame_font) 
-        self.canvas.create_window(420.0,530.0, window=self.listbox_receipt, width=700, height=700) 
+        #self.canvas.create_window(420.0,530.0, window=self.listbox_receipt, width=700, height=500)
+        self.canvas.create_window(420.0,495.0,window=self.listbox_receipt,width=750,height=620)
         self.listbox_receipt.configure(justify=RIGHT)
 
 

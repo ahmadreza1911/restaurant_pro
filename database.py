@@ -165,6 +165,27 @@ class Database:
             self.connection.commit()
             self.connection.close()
 
+
+    def get_total_by_receipt_id(self,receipt_id):
+        self.connection= sqlite3.connect(self.__db_name)
+        cursor = self.connection.cursor()
+        cursor.execute("SELECT sum FROM view_menu_receipt WHERE receipt_id = ?", (receipt_id,))
+        total = 0
+        for row in cursor.fetchall():
+            total += row[0]
+        self.connection.close()
+        return total
+    
+
+    def get_receipt_by_date(self,date):
+        self.connection= sqlite3.connect(self.__db_name)
+        self.cursor=self.connection.cursor()
+        self.cursor.execute('SELECT * FROM table_receipt WHERE date = ?', (date,))
+        result = self.cursor.fetchall()
+        return result
+
+
+
 db=None
 
 if os.path.isfile('restaurant.db')== False:
