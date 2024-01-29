@@ -183,6 +183,14 @@ class Database:
         self.cursor.execute('SELECT * FROM table_receipt WHERE date = ?', (date,))
         result = self.cursor.fetchall()
         return result
+    
+    def get_receipt_between_date(self, start_date, end_date):
+        self.connection = sqlite3.connect(self.__db_name)
+        self.cursor = self.connection.cursor()
+        self.cursor.execute("SELECT * FROM table_receipt WHERE date BETWEEN ? AND ?", (start_date, end_date))
+        result = self.cursor.fetchall()
+        self.connection.close()
+        return result
 
 
 
