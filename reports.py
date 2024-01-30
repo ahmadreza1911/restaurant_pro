@@ -64,8 +64,6 @@ class Reports(ttk.Notebook):
             self.main_receipt_bg = PhotoImage(file=relative_to_assets("Main_1_bg.png"))
             self.canvas.create_image(960.0,540.0,image=self.main_receipt_bg)
             style = ttk.Style()
-            # تغییر فونت tree
-            #style.configure("Treeview.heading", font=('Kalame Regular', 20))
             style.configure("Treeview.Heading", font=('Kalame Regular', 16))
             style.configure("Treeview", font=('Kalame Regular', 12))
 
@@ -132,6 +130,8 @@ class Reports(ttk.Notebook):
             self.destroy()
             self.main = Main(self.master)
             self.main.pack()
+        
+        
 
             
         def layout1(self):
@@ -159,29 +159,86 @@ class Reports(ttk.Notebook):
             self.end_date_img = PhotoImage(file=relative_to_assets("Date_label.png"))
             self.canvas.create_image(848.0,78.0,image=self.end_date_img)
 
-            self.search_button_img = PhotoImage(file=relative_to_assets("Search_button.png"))
-            self.search_button = Button(self,image=self.search_button_img,borderwidth=0,highlightthickness=0,command=lambda: print("button_1 clicked"),relief="flat")
-            self.search_button.place(x=583.0,y=56.0,width=119.0,height=41.0)
 
-            self.start_date_day=Entry(self,background="#b1b1b1",font=("Kalameh Regular", 20),justify='center')
-            self.canvas.create_window (1242.0, 80.0,width=30,height=30,window=self.start_date_day)
+            datee= JalaliDatetime.now().strftime('%Y/%m/%d')
+            datee_list=datee.split('/')
+            today_year=datee_list[0][-2:]
+            today_month=datee_list[1]
+            today_day=datee_list[2]
 
-            self.start_date_month=Entry(self,background="#b1b1b1",font=("Kalameh Regular", 20),justify='center')
-            self.canvas.create_window (1191.0, 80.0,width=30,height=30,window=self.start_date_month)
+            start_day_var = StringVar(self)
+            start_month_var = StringVar(self)
+            start_year_var = StringVar(self)
 
-            self.start_date_year=Entry(self,background="#b1b1b1",font=("Kalameh Regular", 20),justify='center')
-            self.canvas.create_window (1140.0, 80.0,width=30,height=30,window=self.start_date_year)
 
-            
+            start_day_var.set(today_day)
+            start_month_var.set(today_month)
+            start_year_var.set(today_year)
 
-            self.end_date_day=Entry(self,background="#b1b1b1",font=("Kalameh Regular", 20),justify='center')
-            self.canvas.create_window (912.0, 80.0,width=30,height=30,window=self.end_date_day)
 
-            self.end_date_month=Entry(self,background="#b1b1b1",font=("Kalameh Regular", 20),justify='center')
-            self.canvas.create_window (861.0, 80.0,width=30,height=30,window=self.end_date_month)
 
-            self.end_date_year=Entry(self,background="#b1b1b1",font=("Kalameh Regular", 20),justify='center')
-            self.canvas.create_window (810.0, 80.0,width=30,height=30,window=self.end_date_year)
+            days1 = list(range(1, 32))
+            days=[]
+            for num in days1:
+                # تبدیل عدد به رشته
+                num = str(num)
+                # افزودن یک صفر به اول رشته
+                num = num.zfill(2)
+                # افزودن رشته به لیست جدید
+                days.append(num)
+
+            months1 = list(range(1, 13))
+            months=[]
+            for num in months1:
+                # تبدیل عدد به رشته
+                num = str(num)
+                # افزودن یک صفر به اول رشته
+                num = num.zfill(2)
+                # افزودن رشته به لیست جدید
+                months.append(num)
+            years1 = list(range(0, 100))
+            years=[]
+            for num in years1:
+                # تبدیل عدد به رشته
+                num = str(num)
+                # افزودن یک صفر به اول رشته
+                num = num.zfill(2)
+                # افزودن رشته به لیست جدید
+                years.append(num)
+
+
+            self.start_date_day=OptionMenu(self, start_day_var, *days)
+            self.canvas.create_window (1258.0, 80.0,width=55,height=30,window=self.start_date_day)
+            self.start_date_day.config(background="#D9D9D9", font=("Kalameh Regular", 20))
+
+            self.start_date_month = OptionMenu(self, start_month_var, *months)
+            self.canvas.create_window (1190.0, 80.0,width=55,height=30,window=self.start_date_month)
+            self.start_date_month.config(background="#D9D9D9", font=("Kalameh Regular", 20))
+
+            self.start_date_year = OptionMenu(self, start_year_var, *years)
+            self.canvas.create_window (1122.0, 80.0,width=55,height=30,window=self.start_date_year)
+            self.start_date_year.config(background="#D9D9D9", font=("Kalameh Regular", 20))
+
+            end_day_var = StringVar(self)
+            end_month_var = StringVar(self)
+            end_year_var = StringVar(self)
+
+            end_day_var.set(today_day)
+            end_month_var.set(today_month)
+            end_year_var.set(today_year)
+
+            self.end_date_day=OptionMenu(self, end_day_var, *days)
+            self.canvas.create_window (928.0, 80.0,width=55,height=30,window=self.end_date_day)
+            self.end_date_day.config(background="#D9D9D9", font=("Kalameh Regular", 20))
+
+            self.end_date_month=OptionMenu(self, end_month_var, *months)
+            self.canvas.create_window (860.0, 80.0,width=55,height=30,window=self.end_date_month)
+            self.end_date_month.config(background="#D9D9D9", font=("Kalameh Regular", 20))
+
+            self.end_date_year=OptionMenu(self, end_year_var, *years)
+            self.canvas.create_window (792.0, 80.0,width=55,height=30,window=self.end_date_year)
+            self.end_date_year.config(background="#D9D9D9", font=("Kalameh Regular", 20))
+
 
             style.configure("Treeview.Heading", font=('Kalame Regular', 16))
             style.configure("Treeview", font=('Kalame Regular', 12))
@@ -209,25 +266,61 @@ class Reports(ttk.Notebook):
 
             self.tree.configure(yscrollcommand=self.scroll.set)
 
-            date= JalaliDatetime.now().strftime('%Y/%m/%d')
-            start_date=0
-            end_date=0
-            receipts=db.get_receipt_between_date(start_date,end_date)
-            printed_receipt_ids = {}
-            sum_total=0
-            for receipt in receipts :
-                receipt_id=receipt[0]
-                daily_receipt_id=receipt[5]
-                total=db.get_total_by_receipt_id(receipt_id)
-                
-                if receipt_id not in printed_receipt_ids: 
-                    self.tree.insert("", "end", values=(total,daily_receipt_id, receipt_id, date))
-                    sum_total+= total
-                    printed_receipt_ids[receipt_id]=True
-            self.tree.insert("","end", values=(sum_total, "مبلغ کل", "", ""))
-                    
+            
+            def find_date():
+                start_day = start_day_var.get()
+                start_month = start_month_var.get()
+                start_year = start_year_var.get()
+
+                # اضافه کردن 14 به مقدار سال
+                start_year = '14' + start_year
+
+                # ایجاد یک شیء JalaliDatetime از تاریخ شروع
+                start_date = JalaliDatetime(int(start_year), int(start_month), int(start_day))
+
+                # تبدیل تاریخ شروع به رشته با فرمت YYYY/MM/DD
+                start_date_str = start_date.strftime('%Y/%m/%d')
+
+                # چاپ تاریخ شروع
+                print('تاریخ شروع:', start_date_str)
+
+                # همین کار را برای تاریخ پایان تکرار کنید
+                end_day = end_day_var.get()
+                end_month = end_month_var.get()
+                end_year = end_year_var.get()
+
+                # اضافه کردن 14 به مقدار سال
+                end_year = '14' + end_year
+
+                end_date = JalaliDatetime(int(end_year), int(end_month), int(end_day))
+                end_date_str = end_date.strftime('%Y/%m/%d')
+                print('تاریخ پایان:', end_date_str)
+                # فرض کنید tree نام شیء treeview شما باشد
+                for item in self.tree.get_children (): # انتخاب همه آیتم‌ها
+                    self.tree.delete (item) # حذف هر آیتم
+
+                receipts=db.get_receipt_between_date(start_date_str,end_date_str)
+                print(receipts)
+                printed_receipt_ids = {}
+                sum_total=0
+                for receipt in receipts :
+
+                    receipt_id=receipt[0]
+                    daily_receipt_id=receipt[5]
+                    date=receipt[4]
+                    total=db.get_total_by_receipt_id(receipt_id)
+                        
+                    if receipt_id not in printed_receipt_ids: 
+                        self.tree.insert("", "end", values=(total,daily_receipt_id, receipt_id, date))
+                        sum_total+= total
+                        printed_receipt_ids[receipt_id]=True
+                self.tree.insert("","end", values=(sum_total, "مبلغ کل", "", ""))
+            
 
 
+            self.search_button_img = PhotoImage(file=relative_to_assets("Search_button.png"))
+            self.search_button = Button(self,image=self.search_button_img,borderwidth=0,highlightthickness=0,command=find_date,relief="flat")
+            self.search_button.place(x=583.0,y=56.0,width=119.0,height=41.0)
 
             self.home_img = PhotoImage(file=relative_to_assets("Home_btn.png"))
             self.home_btn= Button(self,image=self.home_img,borderwidth=0,highlightthickness=0,command=self.show_page_home,relief="flat")
