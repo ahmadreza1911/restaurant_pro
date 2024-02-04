@@ -52,12 +52,12 @@ class Edit_product(Frame):
         self.canvas.create_text(1101.0,73.0,anchor="nw",text="منوی نوشیدنی ها",fill="#000000",font=("Kalameh Regular", 48 * -1))
 
 
-        self.listbox_drinks = Listbox(self.canvas,background='#B9B9B9', exportselection=False,font=self.kalame_font) # Create a listbox
+        self.listbox_drinks = Listbox(self.canvas,background='#B9B9B9', exportselection=False,font=self.kalame_font) 
         self.canvas.create_window(1125.0,569.0, window=self.listbox_drinks, width=470, height=780) 
         self.listbox_drinks.configure(justify=RIGHT)
 
 
-        self.listbox_foods = Listbox(self.canvas,background='#B9B9B9', exportselection=False,font=self.kalame_font) # Create a listbox
+        self.listbox_foods = Listbox(self.canvas,background='#B9B9B9', exportselection=False,font=self.kalame_font) 
         self.canvas.create_window(1636.0,570.0, window=self.listbox_foods, width=470, height=780) 
         self.listbox_foods.configure(justify=RIGHT)
         def load_listbox(self):
@@ -69,7 +69,7 @@ class Edit_product(Frame):
             for food in foods:
                 self.listbox_foods.insert("end",food[1])
 
-        load_listbox(self) # call the function
+        load_listbox(self) 
 
         #end menu form
         
@@ -97,18 +97,12 @@ class Edit_product(Frame):
         
 
         def validate(user_input):
-            # اگر ورودی کاربر عددی باشد
             if user_input == "" or user_input.isdigit():
-                # برگرداندن True
                 return True
-            # در غیر این صورت
             else:
-                # نمایش یک پیام خطا
                 messagebox.showerror("Error", "Please enter a valid number")
-                # برگرداندن False
                 return False
 
-        # ایجاد یک شی از تابع اعتبارسنجی
         vcmd = self.register(validate)
 
 

@@ -74,9 +74,7 @@ class Main_edit_product(Frame):
 
         load_listbox(self)
 
-        def delete_listbox(self):
-            self.listbox_drinks.delete(0,END)
-            self.listbox_foods.delete(0,END)
+        
 
         #end menu form
         

@@ -17,7 +17,6 @@ def relative_to_assets(path: str) -> str:
 class Add_product(Toplevel):
     def __init__(self,parent):
         super().__init__(parent)
-        #self.place(x = 0, y = 0)
         self.canvas = Canvas(self,bg = "#FFFFFF",height = 642,width = 558,bd = 0,highlightthickness = 0,relief = "ridge")
         self.canvas.pack()
 
@@ -52,18 +51,12 @@ class Add_product(Toplevel):
 
 
         def validate(user_input):
-            # اگر ورودی کاربر عددی باشد
             if user_input == "" or user_input.isdigit():
-                # برگرداندن True
                 return True
-            # در غیر این صورت
             else:
-                # نمایش یک پیام خطا
                 messagebox.showerror("Error", "Please enter a valid number")
-                # برگرداندن False
                 return False
 
-        # ایجاد یک شی از تابع اعتبارسنجی
         vcmd = self.register(validate)
 
 

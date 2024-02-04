@@ -31,16 +31,16 @@ class Reports(ttk.Notebook):
 
         self.daily_reports = self.Daily_reports(self) 
         self.report_by_date = self.Report_by_date(self)
-        self.report_by_name = self.Report_by_name(self)
+        
         
         self.daily_reports_img = PhotoImage(file=relative_to_assets("Daily_reports.png"))
         self.report_by_date_img = PhotoImage(file=relative_to_assets("Report_by_date.png"))
-        self.report_by_name_img = PhotoImage(file=relative_to_assets("Report_by_name.png"))
+        
 
 
         self.add(self.daily_reports,image=self.daily_reports_img)
         self.add(self.report_by_date,image=self.report_by_date_img)
-        self.add(self.report_by_name,image=self.report_by_name_img)
+        
 
     class Daily_reports(Frame):
         def __init__(self,parent):
@@ -89,9 +89,7 @@ class Reports(ttk.Notebook):
             self.scroll.pack(side=RIGHT, fill=Y)
 
             self.tree.configure(yscrollcommand=self.scroll.set)
-
             date= JalaliDatetime.now().strftime('%Y/%m/%d')
-            print(type(date))
             receipts=db.get_receipt_by_date(date=date)
             printed_receipt_ids = {}
             sum_total=0
@@ -180,30 +178,21 @@ class Reports(ttk.Notebook):
             days1 = list(range(1, 32))
             days=[]
             for num in days1:
-                # تبدیل عدد به رشته
                 num = str(num)
-                # افزودن یک صفر به اول رشته
                 num = num.zfill(2)
-                # افزودن رشته به لیست جدید
                 days.append(num)
 
             months1 = list(range(1, 13))
             months=[]
             for num in months1:
-                # تبدیل عدد به رشته
                 num = str(num)
-                # افزودن یک صفر به اول رشته
                 num = num.zfill(2)
-                # افزودن رشته به لیست جدید
                 months.append(num)
             years1 = list(range(0, 100))
             years=[]
             for num in years1:
-                # تبدیل عدد به رشته
                 num = str(num)
-                # افزودن یک صفر به اول رشته
                 num = num.zfill(2)
-                # افزودن رشته به لیست جدید
                 years.append(num)
 
 
@@ -277,9 +266,6 @@ class Reports(ttk.Notebook):
                 start_date = JalaliDatetime(int(start_year), int(start_month), int(start_day))
 
                 start_date_str = start_date.strftime('%Y/%m/%d')
-
-                print('تاریخ شروع:', start_date_str)
-
                 end_day = end_day_var.get()
                 end_month = end_month_var.get()
                 end_year = end_year_var.get()
@@ -288,13 +274,11 @@ class Reports(ttk.Notebook):
 
                 end_date = JalaliDatetime(int(end_year), int(end_month), int(end_day))
                 end_date_str = end_date.strftime('%Y/%m/%d')
-                print('تاریخ پایان:', end_date_str)
 
                 for item in self.tree.get_children (): 
                     self.tree.delete (item) 
 
                 receipts=db.get_receipt_between_date(start_date_str,end_date_str)
-                print(receipts)
                 printed_receipt_ids = {}
                 sum_total=0
                 for receipt in receipts :
@@ -320,27 +304,7 @@ class Reports(ttk.Notebook):
             self.home_btn= Button(self,image=self.home_img,borderwidth=0,highlightthickness=0,command=self.show_page_home,relief="flat")
             self.home_btn.place(x=45.0,y=5.0,width=50.0,height=50.0)
 
-
-
-    class Report_by_name(Frame):
-        def __init__(self,parent):
-            super().__init__(parent)
-            self.place(x = 0, y = 0)
-            self.canvas=Canvas(self,bg = "black",height = 1080,width = 1920,bd = 0,highlightthickness = 0,relief = "ridge")
-            self.canvas.pack()
-
-            self.layout1()
-
         
 
 
-            
-        def layout1(self):
-            self.kalame_font = Font(family="Kalame Regular", size=20)
         
-            self.main_receipt_bg = PhotoImage(file=relative_to_assets("Main_1_bg.png"))
-            self.canvas.create_image(960.0,540.0,image=self.main_receipt_bg)
-
-            self.listbox_foods = Listbox(self.canvas,background='#B9B9B9', exportselection=False) # Create a listbox
-            self.canvas.create_window(1636.0,570.0, window=self.listbox_foods, width=470, height=780) 
-            self.listbox_foods.configure(justify=RIGHT)
