@@ -1,13 +1,10 @@
 import os
+import csv
 from tkinter import *
 from khayyam import *
-from khayyam import jalali_date
-from tkinter import  Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import  Canvas, Text, Button, PhotoImage,messagebox
 from database import *
 from tkinter.font import Font
-from datetime import date
-#from main import Main
-
 
 OUTPUT_PATH = os.path.abspath(__file__)
 ASSETS_PATH = os.path.join(OUTPUT_PATH, r"C:\Users\ahmad\OneDrive\Desktop\restaurant_pro\assets\frame0")
@@ -174,7 +171,6 @@ class Receipt(Frame):
         self.canvas.create_text(755.0,79.0,anchor="nw",text="تاریخ",fill="#000000",font=("Kalameh Regular", 31 * -1))
 
 
-
         self.canvas.create_text(173.0,79.0,anchor="nw",text="شماره فاکتور روزانه",fill="#000000",font=("Kalameh Regular", 31 * -1))
         self.daily_receipt_num_image = PhotoImage(file=relative_to_assets("Daily_receipt_num.png"))
         self.canvas.create_image(103.0,109.0,image=self.daily_receipt_num_image)
@@ -276,8 +272,41 @@ class Receipt(Frame):
         self.new_receipt.place(x=240.0,y=913.0,width=212.0,height=90.0)
 
 
+        def print_receipt():
+            receipt_id=self.receipt_num_lable.cget("text")
+            receipts=db.get_receipt_by_receiptid(receipt_id)
+            if len(receipts)==0:
+                messagebox.showerror("خطا", "فاکتور خالی می  باشد",icon='warning')
+            else:
+
+                file = open("receipt.csv", "w", newline="", encoding="utf-8")
+                writer = csv.writer(file)
+                result=db.get_date_and_daily_receipt_id(receipt_id)
+                daily_receipt=result[0][1]
+                date=result[0][0]
+            
+                writer.writerow(["نرم افزار حسابداری رستوران"])
+                writer.writerow(["شماره فاکتور", receipt_id])
+                writer.writerow(["شماره فاکتور روزانه",daily_receipt])
+                writer.writerow(["تاریخ",date])
+                writer.writerow(["مجموع قیمت", "قیمت", "تعداد", "نام غذا"])
+
+
+                for receipt in receipts:
+                    line = " {0},{1},{2},{3}\n".format(receipt[4], receipt[3], receipt[2], receipt[1])
+                    file.write(line)
+
+                    writer.writerow(receipt)
+
+                total = self.total_label.cget("text")
+                writer.writerow(["قیمت کل", total])
+                file.close()
+
+
+
+
         self.print_receipt_image = PhotoImage(file=relative_to_assets("Print_receipt.png"))
-        self.print_receipt = Button(self,image=self.print_receipt_image,borderwidth=0,highlightthickness=0,command=lambda: print("print_ receipt clicked"),relief="flat")
+        self.print_receipt = Button(self,image=self.print_receipt_image,borderwidth=0,highlightthickness=0,command=print_receipt,relief="flat")
         self.print_receipt.place(x=29.0,y=914.0,width=193.0,height=89.0)
 
 

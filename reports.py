@@ -272,32 +272,26 @@ class Reports(ttk.Notebook):
                 start_month = start_month_var.get()
                 start_year = start_year_var.get()
 
-                # اضافه کردن 14 به مقدار سال
                 start_year = '14' + start_year
 
-                # ایجاد یک شیء JalaliDatetime از تاریخ شروع
                 start_date = JalaliDatetime(int(start_year), int(start_month), int(start_day))
 
-                # تبدیل تاریخ شروع به رشته با فرمت YYYY/MM/DD
                 start_date_str = start_date.strftime('%Y/%m/%d')
 
-                # چاپ تاریخ شروع
                 print('تاریخ شروع:', start_date_str)
 
-                # همین کار را برای تاریخ پایان تکرار کنید
                 end_day = end_day_var.get()
                 end_month = end_month_var.get()
                 end_year = end_year_var.get()
 
-                # اضافه کردن 14 به مقدار سال
                 end_year = '14' + end_year
 
                 end_date = JalaliDatetime(int(end_year), int(end_month), int(end_day))
                 end_date_str = end_date.strftime('%Y/%m/%d')
                 print('تاریخ پایان:', end_date_str)
-                # فرض کنید tree نام شیء treeview شما باشد
-                for item in self.tree.get_children (): # انتخاب همه آیتم‌ها
-                    self.tree.delete (item) # حذف هر آیتم
+
+                for item in self.tree.get_children (): 
+                    self.tree.delete (item) 
 
                 receipts=db.get_receipt_between_date(start_date_str,end_date_str)
                 print(receipts)

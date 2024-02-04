@@ -1,13 +1,10 @@
 import os
 from tkinter import *
 from khayyam import *
-from khayyam import jalali_date
-from tkinter import  Tk, Canvas, Entry, Text, Button, PhotoImage,messagebox
+from tkinter import   Canvas, Entry, Button, PhotoImage,messagebox
 from database import *
 from tkinter.font import Font
-from datetime import date
-#from main import Main
-
+import csv
 
 OUTPUT_PATH = os.path.abspath(__file__)
 ASSETS_PATH = os.path.join(OUTPUT_PATH, r"C:\Users\ahmad\OneDrive\Desktop\restaurant_pro\assets\frame0")
@@ -55,7 +52,9 @@ class Edit_receipt(Frame):
             receipts=db.get_receipt_by_receiptid(receipt_id)
             for receipt in receipts:
                 self.listbox_receipt.insert(0,"%s-%s %s %s" % (receipt[1],receipt[2],receipt[3],receipt[4]))
-
+                total=db.get_total_by_receipt_id(receipt_id)
+                self.total_label.config(text="")
+                self.total_label.config(text=total)
 
 
 
@@ -159,6 +158,7 @@ class Edit_receipt(Frame):
                 if result== None:
                     self.label_date.config(text="")
                     self.daily_receipt_num_lable.config(text="")
+                    self.total_label.config(text="")
                 else:
                     self.label_date.config(text=result[0][0])
                     self.daily_receipt_num_lable.config(text=result[0][1])
@@ -169,6 +169,7 @@ class Edit_receipt(Frame):
                 self.listbox_receipt.delete(0,'end')
                 self.label_date.config(text='')
                 self.daily_receipt_num_lable.config(text='')
+                self.total_label.config(text="")
                 
 
 
@@ -178,12 +179,10 @@ class Edit_receipt(Frame):
 
         self.date_image = PhotoImage(file=relative_to_assets("Date.png"))
         self.canvas.create_image(686.0,109.0,image=self.date_image)
-        #self.today = JalaliDatetime.now().strftime('%Y/%m/%d')
         self.label_date = Label(self,background="#b1b1b1",font=("Kalameh Regular", 17))
         self.canvas.create_window (686, 109,width=120,height=28 , window=self.label_date) 
 
         self.canvas.create_text(755.0,79.0,anchor="nw",text="تاریخ",fill="#000000",font=("Kalameh Regular", 31 * -1))
-
 
 
         self.canvas.create_text(173.0,79.0,anchor="nw",text="شماره فاکتور روزانه",fill="#000000",font=("Kalameh Regular", 31 * -1))
@@ -192,7 +191,11 @@ class Edit_receipt(Frame):
         self.daily_receipt_num_lable=Label(self,background="#b1b1b1",font=("Kalameh Regular", 28))
         self.canvas.create_window (103.0, 109.0,width=120,height=28,window=self.daily_receipt_num_lable)
 
-
+        self.canvas.create_text(365.0,835.0,anchor="nw",text="مبلغ کل",fill="#000000",font=("Kalameh Regular", 31 * -1))
+        self.total_image = PhotoImage(file=relative_to_assets("Total_label.png"))
+        self.canvas.create_image(216.0,855.0,image=self.total_image)
+        self.total_label=Label(self,background="#929292",font=("Kalameh Regular", 28))
+        self.canvas.create_window (216.0, 855.0,width=120,height=28,window=self.total_label)
 
         self.home_img = PhotoImage(file=relative_to_assets("Home_btn.png"))
         self.home_btn= Button(self,image=self.home_img,borderwidth=0,highlightthickness=0,command=self.show_page_home,relief="flat")
@@ -242,43 +245,55 @@ class Edit_receipt(Frame):
         self.delete_line.place(x=354.0,y=913.0,width=161.0,height=90.0)
 
 
+        def print_receipt():
+            receipt_id=self.receipt_num_entry.get()
+            receipts=db.get_receipt_by_receiptid(receipt_id)
+            if len(receipts)==0:
+                messagebox.showerror("خطا", "فاکتور خالی می  باشد",icon='warning')
+            else:
+
+                file = open("receipt.csv", "w", newline="", encoding="utf-8")
+                writer = csv.writer(file)
+                result=db.get_date_and_daily_receipt_id(receipt_id)
+                daily_receipt=result[0][1]
+                date=result[0][0]
+            
+                writer.writerow(["نرم افزار حسابداری رستوران"])
+                writer.writerow(["شماره فاکتور", receipt_id])
+                writer.writerow(["شماره فاکتور روزانه",daily_receipt])
+                writer.writerow(["تاریخ",date])
+                writer.writerow(["مجموع قیمت", "قیمت", "تعداد", "نام غذا"])
+
+
+                for receipt in receipts:
+                    line = " {0},{1},{2},{3}\n".format(receipt[4], receipt[3], receipt[2], receipt[1])
+                    file.write(line)
+
+                    writer.writerow(receipt)
+
+                total = self.total_label.cget("text")
+                writer.writerow(["قیمت کل", total])
+                file.close()
+
 
 
         self.print_receipt_image = PhotoImage(file=relative_to_assets("Print_receipt.png"))
-        self.print_receipt = Button(self,image=self.print_receipt_image,borderwidth=0,highlightthickness=0,command=lambda: print("print_ receipt clicked"),relief="flat")
+        self.print_receipt = Button(self,image=self.print_receipt_image,borderwidth=0,highlightthickness=0,command=print_receipt,relief="flat")
         self.print_receipt.place(x=126.0,y=914.0,width=193.0,height=89.0)
 
 
         self.listbox_receipt = Listbox(self.canvas,background='#B9B9B9', exportselection=False,font=self.kalame_font) 
-        self.canvas.create_window(420.0,530.0, window=self.listbox_receipt, width=700, height=700) 
+        self.canvas.create_window(420.0,495.0, window=self.listbox_receipt, width=750, height=620) 
         self.listbox_receipt.configure(justify=RIGHT)
-
-
 
         #end receipt menu
 
 
-        
-    
-
     def show_page_home(self):
-        from main import Main
-        
+        from main import Main 
         self.destroy()
-        
-
-        # Create an instance of the MainFrame class
         self.main = Main(self.master)
         self.main.pack()
-        #self.decrease_bt.place_forget()
-        #self.increase_bt.place_forget()
-        #self.delete_line.place_forget()
-        #self.new_receipt.place_forget()
-        #self.print_receipt.place_forget()
-        #self..place_forget()
-        #self..place_forget()
-        #self.main=Main(self)
-        #self.main.tkraise()
 
 
 
