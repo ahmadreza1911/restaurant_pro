@@ -18,12 +18,14 @@ class App(Tk):
         super().__init__()
         width=self.winfo_screenwidth()
         height=self.winfo_screenheight()
+        
+        self.overrideredirect (True)
+
         self.geometry('%dx%d' %(width,height))
         self.state('zoomed')
         self.configure(bg = "#FFFFFF")
         self.title('مدیریت رستوران')
         self.main=Main(self)
-        self.resizable(False, False)
         self.mainloop()
 
 
