@@ -195,7 +195,7 @@ class Edit_product(Frame):
 
 
         self.submit = PhotoImage(file=relative_to_assets("Submit.png"))
-        self.submit_btn = Button(image=self.submit,borderwidth=0,highlightthickness=0,command=submit_data,relief="flat")
+        self.submit_btn = Button(self,image=self.submit,borderwidth=0,highlightthickness=0,command=submit_data,relief="flat")
         self.submit_btn.place(x=271.8,y=731.4,width=298.667,height=127.6)
 
 
@@ -217,7 +217,7 @@ class Edit_product(Frame):
 
 
         self.delete_button_img = PhotoImage(file=relative_to_assets("Delete_btn.png"))
-        self.delete_button = Button(image=self.delete_button_img,borderwidth=0,highlightthickness=0,command=delete_data,relief="flat")
+        self.delete_button = Button(self,image=self.delete_button_img,borderwidth=0,highlightthickness=0,command=delete_data,relief="flat")
         self.delete_button.place(x=99.0,y=763.0,width=148.0,height=64.0)
 
 

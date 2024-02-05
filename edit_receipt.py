@@ -51,10 +51,10 @@ class Edit_receipt(Frame):
             self.listbox_receipt.delete(0,'end')
             receipts=db.get_receipt_by_receiptid(receipt_id)
             for receipt in receipts:
-                self.listbox_receipt.insert(0,"%s-%s %s %s" % (receipt[1],receipt[2],receipt[3],receipt[4]))
+                self.listbox_receipt.insert(0,"%s-%s %s %s" % (receipt[1],str(receipt[2])+ "عدد","{:,}".format(receipt[3]) + " ریال","{:,}".format(receipt[4]) + " ریال"))
                 total=db.get_total_by_receipt_id(receipt_id)
                 self.total_label.config(text="")
-                self.total_label.config(text=total)
+                self.total_label.config(text="{:,}".format(total) + " ریال")
 
 
 
@@ -91,7 +91,7 @@ class Edit_receipt(Frame):
         self.listbox_drinks.bind('<Double-Button>', add_drink)
 
 
-        self.listbox_foods = Listbox(self.canvas,background='#B9B9B9', exportselection=False,font=self.kalame_font) # Create a listbox
+        self.listbox_foods = Listbox(self.canvas,background='#B9B9B9', exportselection=False,font=self.kalame_font) 
         self.canvas.create_window(1636.0,570.0, window=self.listbox_foods, width=470, height=780) 
         self.listbox_foods.configure(justify=RIGHT)
 
@@ -105,7 +105,7 @@ class Edit_receipt(Frame):
             food_item=db.get_menu_item_by_name(self.listbox_foods.get(ACTIVE))
             menu_id=food_item[0][0]
             price=food_item[0][2]
-            receipt_id=int(self.receipt_num_entry.get()) 
+            receipt_id=int(self.receipt_num_entry.get())
             date = self.label_date.cget('text')
             max_daily_receipt= int(self.daily_receipt_num_lable.cget('text'))
 
@@ -195,7 +195,7 @@ class Edit_receipt(Frame):
         self.total_image = PhotoImage(file=relative_to_assets("Total_label.png"))
         self.canvas.create_image(216.0,855.0,image=self.total_image)
         self.total_label=Label(self,background="#929292",font=("Kalameh Regular", 28))
-        self.canvas.create_window (216.0, 855.0,width=120,height=28,window=self.total_label)
+        self.canvas.create_window (216.0, 855.0,width=220,height=28,window=self.total_label)
 
         self.home_img = PhotoImage(file=relative_to_assets("Home_btn.png"))
         self.home_btn= Button(self,image=self.home_img,borderwidth=0,highlightthickness=0,command=self.show_page_home,relief="flat")

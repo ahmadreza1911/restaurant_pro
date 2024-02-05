@@ -1,12 +1,11 @@
 import os
 from tkinter import *
 from khayyam import *
-from khayyam import jalali_date
-from tkinter import  Tk, Canvas, Entry, Text, Button, PhotoImage,ttk
+from tkinter import   Canvas, Button, PhotoImage,ttk
 from database import *
 from tkinter.font import Font
-from datetime import date
-from tkcalendar import Calendar , DateEntry
+
+
 #from main import Main
 
 
@@ -21,9 +20,6 @@ class Reports(ttk.Notebook):
     def __init__(self,parent):
         super().__init__(parent)
         self.place(x = 0, y = 0)
-        
-        #self.canvas=Canvas(self,bg = "black",height = 1080,width = 1920,bd = 0,highlightthickness = 0,relief = "ridge")
-        #self.canvas.pack()
         style = ttk.Style()
         style.configure('TNotebook', background='#6A6A6A')
         self.style = style
@@ -45,7 +41,7 @@ class Reports(ttk.Notebook):
     class Daily_reports(Frame):
         def __init__(self,parent):
             super().__init__(parent)
-            #from tkinter import ttk
+            
             self.place(x = 0, y = 0)
             self.canvas=Canvas(self,bg = "black",height = 1080,width = 1920,bd = 0,highlightthickness = 0,relief = "ridge")
             self.canvas.pack()
@@ -71,19 +67,20 @@ class Reports(ttk.Notebook):
             self.canvas.create_window(980.0,540.0, window=self.tree, width=700, height=800)
 
             
-            self.tree["columns"] = ( "مبلغ فاکتور", "شماره فاکتور روزانه" ,"شماره فاکتور","تاریخ")
+            self.tree["columns"] = ( "واحد پول","مبلغ فاکتور", "شماره فاکتور روزانه" ,"شماره فاکتور","تاریخ")
 
             self.tree.column("#0", width=0, stretch=NO)
             self.tree.column("مبلغ فاکتور", anchor=E, width=50)
-            self.tree.column("شماره فاکتور روزانه", anchor=E, width=50)
+            self.tree.column("شماره فاکتور روزانه", anchor=E, width=60)
             self.tree.column("شماره فاکتور", anchor=E, width=50)
-            self.tree.column("تاریخ", anchor=E, width=80) # اضافه کردن ستون تاریخ
+            self.tree.column("تاریخ", anchor=E, width=50)
+            self.tree.column("واحد پول", anchor=E, width=5)
 
             self.tree.heading("#0", text="", anchor=E)
             self.tree.heading("مبلغ فاکتور", text="مبلغ فاکتور", anchor=E)
             self.tree.heading("شماره فاکتور روزانه", text="شماره فاکتور روزانه", anchor=E)
             self.tree.heading("شماره فاکتور", text="شماره فاکتور", anchor=E)
-            self.tree.heading("تاریخ", text="تاریخ", anchor=E) # اضافه کردن عنوان ستون تاریخ
+            self.tree.heading("تاریخ", text="تاریخ", anchor=E)  
 
             self.scroll = ttk.Scrollbar(self, orient="vertical", command=self.tree.yview)
             self.scroll.pack(side=RIGHT, fill=Y)
@@ -99,10 +96,11 @@ class Reports(ttk.Notebook):
                 total=db.get_total_by_receipt_id(receipt_id)
                 
                 if receipt_id not in printed_receipt_ids: 
-                    self.tree.insert("", "end", values=(total,daily_receipt_id, receipt_id, date))
+                    self.tree.insert("", "end", values=("ریال","{:,}".format(total) ,daily_receipt_id, receipt_id, date))
                     sum_total+= total
                     printed_receipt_ids[receipt_id]=True
-            self.tree.insert("","end", values=(sum_total, "مبلغ کل", "", ""))
+            
+            self.tree.insert("","end", values=( "ریال","{:,}".format(sum_total) , "مبلغ کل", "", "")) 
                     
 
 
@@ -235,21 +233,23 @@ class Reports(ttk.Notebook):
             self.tree=ttk.Treeview(self)
             self.canvas.create_window(980.0,540.0, window=self.tree, width=700, height=800)
 
-            
-            self.tree["columns"] = ( "مبلغ فاکتور", "شماره فاکتور روزانه" ,"شماره فاکتور","تاریخ")
+
+            self.tree["columns"] = ( "واحد پول","مبلغ فاکتور", "شماره فاکتور روزانه" ,"شماره فاکتور","تاریخ")
 
             self.tree.column("#0", width=0, stretch=NO)
             self.tree.column("مبلغ فاکتور", anchor=E, width=50)
-            self.tree.column("شماره فاکتور روزانه", anchor=E, width=50)
+            self.tree.column("شماره فاکتور روزانه", anchor=E, width=60)
             self.tree.column("شماره فاکتور", anchor=E, width=50)
-            self.tree.column("تاریخ", anchor=E, width=80) # اضافه کردن ستون تاریخ
+            self.tree.column("تاریخ", anchor=E, width=50)
+            self.tree.column("واحد پول", anchor=E, width=5)
 
             self.tree.heading("#0", text="", anchor=E)
             self.tree.heading("مبلغ فاکتور", text="مبلغ فاکتور", anchor=E)
             self.tree.heading("شماره فاکتور روزانه", text="شماره فاکتور روزانه", anchor=E)
             self.tree.heading("شماره فاکتور", text="شماره فاکتور", anchor=E)
-            self.tree.heading("تاریخ", text="تاریخ", anchor=E) # اضافه کردن عنوان ستون تاریخ
+            self.tree.heading("تاریخ", text="تاریخ", anchor=E)
 
+            
             self.scroll = ttk.Scrollbar(self, orient="vertical", command=self.tree.yview)
             self.scroll.pack(side=RIGHT, fill=Y)
 
@@ -289,10 +289,10 @@ class Reports(ttk.Notebook):
                     total=db.get_total_by_receipt_id(receipt_id)
                         
                     if receipt_id not in printed_receipt_ids: 
-                        self.tree.insert("", "end", values=(total,daily_receipt_id, receipt_id, date))
+                        self.tree.insert("", "end", values=("ریال","ریال","{:,}".format(total),daily_receipt_id, receipt_id, date))
                         sum_total+= total
                         printed_receipt_ids[receipt_id]=True
-                self.tree.insert("","end", values=(sum_total, "مبلغ کل", "", ""))
+                self.tree.insert("","end", values=("ریال","{:,}".format(sum_total), "مبلغ کل", "", ""))
             
 
 
