@@ -297,7 +297,6 @@ class Receipt(Frame):
                     line = " {0},{1},{2},{3}\n".format(receipt[4], receipt[3], receipt[2], receipt[1])
                     file.write(line)
 
-                    writer.writerow(receipt)
 
                 total = self.total_label.cget("text")
                 writer.writerow(["قیمت کل", total])
