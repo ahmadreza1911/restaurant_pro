@@ -54,7 +54,7 @@ class Add_product(Toplevel):
             if user_input == "" or user_input.isdigit():
                 return True
             else:
-                messagebox.showerror("Error", "Please enter a valid number")
+                messagebox.showerror("خطا", "لطفا یک عدد معتبر وارد کنید")
                 return False
 
         vcmd = self.register(validate)
@@ -90,22 +90,22 @@ class Add_product(Toplevel):
             price=self.price_entry.get()
             type_of_food=var.get()
             if name == "" or price == "" :
-                messagebox.showerror("Error", "Please fill all the fields")
+                messagebox.showerror("خطا", "لطفا همه فیلد ها را پر کنید")
                 return
             try:
                 price = int(price)
             except ValueError:
-                messagebox.showerror("Error", "Price must be an integer")
+                messagebox.showerror("خطا", "قیمت کالا فقط مقدار عددی میتواند بگیرد")
                 return
             try: 
                 db.insert(id,name,price,type_of_food)
-                messagebox.showinfo("Success", "Data added to the database")
+                messagebox.showinfo("موفق", "اطلاعات ذخیره شد")
                 self.name_entry.delete(0,END)
                 self.price_entry.delete(0,END)
                 
 
             except:
-                messagebox.showerror("Error", "Name already exists in the database")
+                messagebox.showerror("خطا", "نام تکراری می باشد")
         self.confrim_btn = PhotoImage(file=relative_to_assets("Confrim_btn.png"))
         self.button_1 = Button(self,image=self.confrim_btn,borderwidth=0,highlightthickness=0,command=submit_data,relief="flat")
         self.button_1.place(x=172.0,y=454.0,width=213.0,height=91.0)

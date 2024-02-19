@@ -92,7 +92,7 @@ class Receipt(Frame):
         self.listbox_drinks.bind('<Double-Button>', add_drink)
 
 
-        self.listbox_foods = Listbox(self.canvas,background='#B9B9B9', exportselection=False,font=self.kalame_font) # Create a listbox
+        self.listbox_foods = Listbox(self.canvas,background='#B9B9B9', exportselection=False,font=self.kalame_font) 
         self.canvas.create_window(1636.0,570.0, window=self.listbox_foods, width=470, height=780) 
         self.listbox_foods.configure(justify=RIGHT)
 
@@ -312,7 +312,6 @@ class Receipt(Frame):
 
 
         self.listbox_receipt = Listbox(self.canvas,background='#B9B9B9', exportselection=False,font=self.kalame_font) 
-        #self.canvas.create_window(420.0,530.0, window=self.listbox_receipt, width=700, height=500)
         self.canvas.create_window(420.0,495.0,window=self.listbox_receipt,width=750,height=620)
         self.listbox_receipt.configure(justify=RIGHT)
 

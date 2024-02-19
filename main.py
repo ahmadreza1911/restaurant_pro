@@ -55,7 +55,7 @@ class Main(Frame):
             else:
                 return
 
-        #super.protocol("WM_DELETE_WINDOW", exit_program)
+        
         self.exit_btn = PhotoImage(file=relative_to_assets("Exit_btn.png"))
         self.button_exit = Button(self,image=self.exit_btn,borderwidth=0,highlightthickness=0,command=exit_program,relief="flat")
         self.button_exit.place(x=1496.0,y=795.0,width=332.0,height=90.0)

@@ -100,7 +100,7 @@ class Edit_product(Frame):
             if user_input == "" or user_input.isdigit():
                 return True
             else:
-                messagebox.showerror("Error", "Please enter a valid number")
+                messagebox.showerror("خطا", "لطفا یک عدد معتبر وارد کنید")
                 return False
 
         vcmd = self.register(validate)
@@ -173,22 +173,22 @@ class Edit_product(Frame):
 
             
             if name == "" or price == "" :
-                messagebox.showerror("Error", "Please fill all the fields")
+                messagebox.showerror("خطا", "لطفا همه فیلد ها را پر کنید")
                 return
             try:
                 price = int(price)
             except ValueError:
-                messagebox.showerror("Error", "Price must be an integer")
+                messagebox.showerror("خطا", "قیمت کالا فقط مقدار عددی میتواند بگیرد")
                 return
             try: 
                 db.update(id,name,price,type_of_food)
-                messagebox.showinfo("Success", "Data updated to the database")
+                messagebox.showinfo("موفق", "اطلاعات با موفقیت تغییر کرد")
                 self.listbox_drinks.delete(0, END) 
                 self.listbox_foods.delete(0, END) 
 
                 load_listbox(self)
             except:
-                messagebox.showerror("Error", "Name already exists in the database")
+                messagebox.showerror("خطا", "نام تکراری می باشد")
 
 
 
@@ -201,11 +201,11 @@ class Edit_product(Frame):
 
         def delete_data():
             id =int(self.id_entry.get())
-            answer = messagebox.askokcancel("Confirm delete", "Are you sure you want to delete this food?")
+            answer = messagebox.askokcancel("هشدار", "آیا مطمئنید که می خواهید این غذا را حذف کنید؟")
             
             if answer == True:
                 db.delete(id)
-                messagebox.showinfo("Success", "Data deleted from the database")
+                messagebox.showinfo("موفق", "اطلاعات با موفقیت حذف شد")
                 self.listbox_foods.delete(0, END) 
                 self.listbox_drinks.delete(0, END) 
                 load_listbox(self)
